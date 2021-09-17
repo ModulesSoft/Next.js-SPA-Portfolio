@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import He from "he/he";
 
 // components
 
@@ -28,6 +27,7 @@ export default function Landing({ posts }) {
     <>
       <Navbar transparent />
       <main>
+
         <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
@@ -46,10 +46,10 @@ export default function Landing({ posts }) {
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
-                    {posts.map(post => (post.id == 1) ? <p key={post.id}>{ReactHtmlParser(post.title.rendered)}</p> : '')}
+                    {/* {posts.map(post => (post.id == 1) ? <p key={post.id}>{ReactHtmlParser(post.title.rendered)}</p> : '')} */}
                   </h1>
                   <p className="mt-4 text-lg text-blueGray-200" >
-                    {posts.map(function (post) { if (post.id == 1) { return <p key={post.id}>{ReactHtmlParser(post.content.rendered)}</p> } })}
+                    {/* {posts.map(function (post) { if (post.id == 1) { return <p key={post.id}>{ReactHtmlParser(post.content.rendered)}</p> } })} */}
                   </p>
                 </div>
               </div>
@@ -144,9 +144,9 @@ export default function Landing({ posts }) {
                   good to go. Just make sure you enable them first via
                   JavaScript.
                 </p>
-                <Link href="/">
+                <Link href="/blog">
                   <a href="#pablo" className="font-bold text-blueGray-700 mt-8">
-                    Check Notus NextJS!
+                    Check blog page!
                   </a>
                 </Link>
               </div>

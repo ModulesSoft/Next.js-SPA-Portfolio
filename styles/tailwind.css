@@ -7,6 +7,20 @@ Document
 ========
 */
 
+.wrapper{
+  display:grid;
+  /* height:100vh; */
+  place-items:center;
+  margin:1px;
+  width: 300px;
+  /* overflow:hidden; */
+  margin-left: 50px ;
+}
+
+.thumbNailImage{
+  width: 300px !important;
+  height: 300px !important;
+}
 /**
 Use a better box model (opinionated).
 */
@@ -2424,6 +2438,9 @@ select {
 .-ml-4 {
   margin-left: -1rem;
 }
+.-mt-16 {
+  margin-top: -4rem;
+}
 
 .-mt-20 {
   margin-top: -5rem;
@@ -2676,6 +2693,10 @@ select {
 
 .p-5 {
   padding: 1.25rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 .p-8 {
