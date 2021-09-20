@@ -130,7 +130,7 @@ export default function Post({ postData }) {
                                     </div>
                                     <div className="mb-2 text-blueGray-600 mt-10">
                                         <i className="fas fa-handshake mr-2 text-lg text-blueGray-400"></i>
-                                        <a href={postData.extraProjectsInfo.employerLink} className="text-teal-500 hover:text-lightBlue-600">
+                                        <a href={postData.extraProjectsInfo.employerLink} target="_blank" className="text-teal-500 hover:text-lightBlue-600">
                                         {postData.extraProjectsInfo.employer}
                                         </a>
                                     </div>
@@ -139,7 +139,7 @@ export default function Post({ postData }) {
                     University of Computer Science
                   </div> */}
                                 </div>
-                                <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+                                <div className="mt-10 py-10 border-t border-blueGray-200">
                                     <div className="flex flex-wrap">
                                         <div className="w-full lg:w-9/12 px-4">
                                             
