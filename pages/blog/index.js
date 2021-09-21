@@ -12,7 +12,7 @@ import { getAllProjects } from '../../lib/api';
 // import blogStyles from '../../styles/Blog.module.css';
 const styles = '';
 const blogStyles = '';
-const Blog = ({ allPosts: { edges } }) => (
+const Blog = ({ allPosts: { edges },footerData:footerData }) => (
   <>
     <IndexNavbar fixed />
 
@@ -72,8 +72,7 @@ const Blog = ({ allPosts: { edges } }) => (
         ))}
       </div>
     </section>
-
-    <Footer />
+    <Footer postData={footerData}/>
   </>
 );
 

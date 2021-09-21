@@ -8,7 +8,7 @@ import Footer from "components/Footers/Footer.js";
 import Interweave from 'interweave';
 
 import { getAllHomePosts } from "../lib/api";
-import { render } from "react-dom";
+// import { render } from "react-dom";
 
 // export async getStaticProps() {
 //   const data = await getAllHomePosts();
@@ -28,9 +28,6 @@ class Home extends React.Component {
   }
 
   findPost(row, col, type) {
-    // console.log('row ' + row + " col " + col + " type " + type
-
-    // );
     const res = this.props.postData.edges.find(post => post.node.extraHomePostsInfo.row == row && post.node.extraHomePostsInfo.column == col);
     return res ? (type == "title" ? res.node.title : res.node.content) : "data not found!"
   }
@@ -140,7 +137,7 @@ class Home extends React.Component {
               <div className="flex flex-wrap items-center mt-32">
                 <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
                   <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
-                    <i className="fas fa-user-friends text-xl"></i>
+                    <i className="fas fa-school text-xl"></i>
                   </div>
                   <h3 className="text-3xl mb-2 font-semibold leading-normal">
                     {this.findPost(2, 1, 'title')}
@@ -158,8 +155,8 @@ class Home extends React.Component {
                 <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-blueGray-700">
                     <img
-                      alt="..."
-                      src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80"
+                      alt="azarshiga construction"
+                      src="/img/azarshiga/urmia-Industrial-university-construction.jpg"
                       className="w-full align-middle rounded-t-lg"
                     />
                     <blockquote className="relative p-8 mb-4">
@@ -212,15 +209,15 @@ class Home extends React.Component {
               <div className="items-center flex flex-wrap">
                 <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
                   <img
-                    alt="..."
+                    alt="azar shiga flag fields"
                     className="max-w-full rounded-lg shadow-lg"
-                    src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                    src="/img/azarshiga/surgery-room.jpg"
                   />
                 </div>
                 <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
                   <div className="md:pr-12">
                     <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-blueGray-200">
-                      <i className="fas fa-rocket text-xl"></i>
+                      <i className="fas fa-industry text-xl"></i>
                     </div>
                     <h3 className="text-3xl font-semibold">
                       {this.findPost(3, 1, 'title')}
@@ -581,7 +578,7 @@ class Home extends React.Component {
           </section>
 
         </main>
-        <Footer />
+        <Footer postData={this.props.footerData}/>
       </>
     );
   }

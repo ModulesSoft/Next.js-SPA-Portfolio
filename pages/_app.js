@@ -10,6 +10,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "styles/tailwind.css";
 import "styles/fonts/yekan/yekan-font.css";
 
+import { getAllFooterPosts } from "../lib/api.js";
+
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
   document.body.classList.add("body-page-transition");
@@ -52,15 +54,16 @@ export default class MyApp extends App {
   }
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
+    const footerData = await getAllFooterPosts();
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps };
+    return { footerData, pageProps };
   }
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps ,footerData } = this.props;
 
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
@@ -75,7 +78,7 @@ export default class MyApp extends App {
           {/* <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> */}
         </Head>
         <Layout>
-          <Component {...pageProps} />
+          <Component {...pageProps} footerData={footerData} />
         </Layout>
       </React.Fragment>
     );
