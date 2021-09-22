@@ -153,7 +153,7 @@ export default function Post({ postData }) {
                     </div>
                 </section>
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </>
 
     )

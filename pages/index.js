@@ -5,9 +5,11 @@ import Link from "next/link";
 
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
+import Brands from "components/Brands/Brands.js";
 import Interweave from 'interweave';
 
 import { getAllHomePosts } from "../lib/api";
+import { getAllBrands } from "../lib/api";
 // import { render } from "react-dom";
 
 // export async getStaticProps() {
@@ -22,8 +24,10 @@ class Home extends React.Component {
 
   static async getInitialProps(ctx) {
     const data = await getAllHomePosts();
+    const brands = await getAllBrands();
     return {
-      postData: data
+      postData: data,
+      brandData: brands
     }
   }
 
@@ -429,6 +433,15 @@ class Home extends React.Component {
                   </div>
                 </div>
               </div>
+
+              <div className="flex flex-wrap justify-center text-center mt-24">
+                <div className="w-full lg:w-6/12 py-16">
+                  <h2 className="text-4xl font-semibold">Our customers</h2>
+                  <div className="text-lg leading-relaxed m-4 text-blueGray-500">
+                    <Brands data={this.props.brandData} />
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -459,10 +472,10 @@ class Home extends React.Component {
               <div className="flex flex-wrap text-center justify-center">
                 <div className="w-full lg:w-6/12 px-4">
                   <h2 className="text-4xl font-semibold text-white">
-                      {this.findPost(5, 2, 'title')}
+                    {this.findPost(5, 2, 'title')}
                   </h2>
                   <p className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-                      <Interweave content={this.findPost(5, 2, 'content')} />
+                    <Interweave content={this.findPost(5, 2, 'content')} />
                   </p>
                 </div>
               </div>
@@ -506,7 +519,6 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
-
           <section className="relative block py-24 lg:pt-0 bg-blueGray-800">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
@@ -578,7 +590,7 @@ class Home extends React.Component {
           </section>
 
         </main>
-        <Footer postData={this.props.footerData}/>
+        <Footer postData={this.props.footerData} />
       </>
     );
   }
