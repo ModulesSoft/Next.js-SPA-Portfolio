@@ -7,12 +7,7 @@ import StarRatings from "components/StarRatings/StarRatings.js";
 // data
 import { getAllProjects } from '../../lib/api';
 
-// styles
-// import styles from '../../styles/Home.module.css';
-// import blogStyles from '../../styles/Blog.module.css';
-const styles = '';
-const blogStyles = '';
-const Blog = ({ allPosts: { edges },footerData:footerData }) => (
+const Blog = ({ allPosts: { edges },footerData }) => (
   <>
     <IndexNavbar fixed />
 

@@ -49,9 +49,12 @@ render() {
                   className="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
                   type="button"
                 >
-                  <i className="fab fa-twitter"></i>
+                  <a 
+                  href="https://t.me/Azarshiga" target="_blank">
+                  <i className="fab fa-telegram"></i>
+                  </a>
                 </button>
-                <button
+                {/* <button
                   className="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
                   type="button"
                 >
@@ -68,7 +71,7 @@ render() {
                   type="button"
                 >
                   <i className="fab fa-github"></i>
-                </button>
+                </button> */}
               </div>
             </div>
             <div className="w-full lg:w-6/12 px-4">

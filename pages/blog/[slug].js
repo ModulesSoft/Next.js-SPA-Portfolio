@@ -30,7 +30,7 @@ export default function Post({ postData }) {
                 <title>{postData.title}</title>
                 <link rel='icon' href='/favicon.ico' />
             </Head>
-            <main className="profile-page">
+            <main className="profile-page" dir="rtl">
                 <section className="relative block h-500-px">
                     <div
                         className="absolute top-0 w-full h-full bg-center bg-cover"
