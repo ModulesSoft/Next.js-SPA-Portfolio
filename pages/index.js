@@ -4,32 +4,28 @@ import Link from "next/link";
 // components
 
 import Navbar from "components/Navbars/AuthNavbar.js";
-import Footer from "components/Footers/Footer.js";
 import Brands from "components/Brands/Brands.js";
+import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
 
 import { getAllHomePosts } from "../lib/api";
 import { getAllBrands } from "../lib/api";
+import { getAllFooterPosts } from '../lib/api';
 // import { render } from "react-dom";
 
-// export async getStaticProps() {
-//   const data = await getAllHomePosts();
-//   return {
-//     posts: {
-//       postData: data
-//     }
-//   };
-// }
-class Home extends React.Component {
-
-  static async getInitialProps(ctx) {
-    const data = await getAllHomePosts();
-    const brands = await getAllBrands();
-    return {
+export async function getStaticProps() {
+  const data = await getAllHomePosts();
+  const brands = await getAllBrands();
+  const footerData = await getAllFooterPosts();
+  return {
+    props: {
       postData: data,
-      brandData: brands
+      brandData: brands,
+      footerData
     }
   }
+}
+class Home extends React.Component {
 
   findPost(row, col, type) {
     const res = this.props.postData.edges.find(post => post.node.extraHomePostsInfo.row == row && post.node.extraHomePostsInfo.column == col);
@@ -151,7 +147,7 @@ class Home extends React.Component {
                   </div>
                   <Link href="/blog">
                     <a href="#projects" className="font-bold text-teal-500 hover:text-lightBlue-600 mt-8">
-                      Check projects
+                      مشاهده پروژه ها
                     </a>
                   </Link>
                 </div>
@@ -436,9 +432,9 @@ class Home extends React.Component {
                 <div className="w-full lg:w-6/12 py-16">
                   <h2 className="text-4xl font-semibold">{this.findPost(5, 2, 'title')}</h2>
                   <p className="text-lg leading-relaxed m-4 text-blueGray-500">
-                  <Interweave content={this.findPost(5, 2, 'content')} />
+                    <Interweave content={this.findPost(5, 2, 'content')} />
                   </p>
-                  <div className="text-lg leading-relaxed m-4 text-blueGray-500">
+                  <div className="text-lg leading-relaxed m-2 text-blueGray-500">
                     <Brands data={this.props.brandData} />
                   </div>
                 </div>
@@ -486,10 +482,10 @@ class Home extends React.Component {
                     <i className="fas fa-medal text-xl"></i>
                   </div>
                   <h6 className="text-xl mt-5 font-semibold text-white">
-                  {this.findPost(7, 3, 'title')}
+                    {this.findPost(7, 3, 'title')}
                   </h6>
                   <p className="mt-2 mb-4 text-blueGray-400">
-                  <Interweave content={this.findPost(7, 3, 'content')} />
+                    <Interweave content={this.findPost(7, 3, 'content')} />
                   </p>
                 </div>
                 <div className="w-full lg:w-3/12 px-4 text-center">
@@ -497,10 +493,10 @@ class Home extends React.Component {
                     <i className="fas fa-poll text-xl"></i>
                   </div>
                   <h5 className="text-xl mt-5 font-semibold text-white">
-                  {this.findPost(7, 2, 'title')}
+                    {this.findPost(7, 2, 'title')}
                   </h5>
                   <p className="mt-2 mb-4 text-blueGray-400">
-                  <Interweave content={this.findPost(7, 2, 'content')} />
+                    <Interweave content={this.findPost(7, 2, 'content')} />
                   </p>
                 </div>
                 <div className="w-full lg:w-3/12 px-4 text-center">
@@ -508,10 +504,10 @@ class Home extends React.Component {
                     <i className="fas fa-lightbulb text-xl"></i>
                   </div>
                   <h5 className="text-xl mt-5 font-semibold text-white">
-                  {this.findPost(7, 1, 'title')}
+                    {this.findPost(7, 1, 'title')}
                   </h5>
                   <p className="mt-2 mb-4 text-blueGray-400">
-                  <Interweave content={this.findPost(7, 1, 'content')} />
+                    <Interweave content={this.findPost(7, 1, 'content')} />
                   </p>
                 </div>
               </div>
@@ -585,9 +581,8 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
-
+          <Footer postData={this.props.footerData} />
         </main>
-        <Footer postData={this.props.footerData} />
       </>
     );
   }

@@ -2,10 +2,23 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import Footer from "components/Footers/Footer.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
+import Footer from "components/Footers/Footer";
 // data
 import { getAllProjects } from '../../lib/api';
+import { getAllFooterPosts } from '../../lib/api';
+
+export async function getStaticProps() {
+  const allPosts = await getAllProjects();
+  const footerData = await getAllFooterPosts();
+
+  return {
+    props: {
+      allPosts,
+      footerData
+    }
+  };
+}
 
 const Blog = ({ allPosts: { edges },footerData }) => (
   <>
@@ -36,11 +49,11 @@ const Blog = ({ allPosts: { edges },footerData }) => (
                 </div>
 
                 <h4 className="mt-1 text-xl font-semibold uppercase leading-tight" >
-                <Link href={`/blog/${node.slug}`}>
-                      <a className="text-teal-500 hover:text-lightBlue-600 flex items-center font-bold">
-                        {node.title}
-                      </a>
-                    </Link>
+                  <Link href={`/blog/${node.slug}`}>
+                    <a className="text-teal-500 hover:text-lightBlue-600 flex items-center font-bold">
+                      {node.title}
+                    </a>
+                  </Link>
                 </h4>
 
                 <div className="mt-1">
@@ -56,7 +69,7 @@ const Blog = ({ allPosts: { edges },footerData }) => (
                     project scale:
                   </p>
                   <span className="text-center">
-                    <StarRatings rating={node.extraProjectsInfo.scale/20}/>
+                    <StarRatings rating={node.extraProjectsInfo.scale / 20} />
                   </span>
 
                 </div>
@@ -67,18 +80,8 @@ const Blog = ({ allPosts: { edges },footerData }) => (
         ))}
       </div>
     </section>
-    <Footer postData={footerData}/>
+    <Footer postData={footerData} />
   </>
 );
-
-export async function getStaticProps() {
-  const allPosts = await getAllProjects();
-  return {
-    props: {
-      allPosts
-    }
-  };
-}
-
 
 export default Blog;

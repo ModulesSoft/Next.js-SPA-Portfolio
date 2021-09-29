@@ -2,8 +2,8 @@ import react from "react";
 
 const Brands = (data) => (
     <div>
-        {data.data.edges.map(item => (
-            <div className="inline-block hover:text-lightBlue-600">
+        {data.data.edges.map((item,i) => (
+            <div key={i} className="inline-block hover:text-lightBlue-600">
                 <a href={item.node.extraBrandsInfo.url} target="_blank">
                     <img src={item.node.extraBrandsInfo.image.mediaItemUrl}
                         alt={item.node.title}

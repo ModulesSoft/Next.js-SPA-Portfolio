@@ -2,14 +2,6 @@ import React from "react";
 
 import Interweave from 'interweave';
 class Footer extends React.Component {
-  // static async getInitialProps(ctx) {
-
-  //   console.log('nound: true');
-  //   const data = await getAllFooterPosts();
-  //   return {
-  //     postData: data
-  //   }
-  // }
   findPost(row, col, type) {
     const res = this.props.postData.edges.find(post => post.node.extraFooterPostsInfo.row == row && post.node.extraFooterPostsInfo.column == col);
     return res ? (type == "title" ? res.node.title : res.node.content) : "data not found!"
@@ -17,7 +9,7 @@ class Footer extends React.Component {
 render() {
   return (
     <>
-      <footer className="relative bg-blueGray-200 pt-8 pb-6" >
+      <footer className="relative bg-blueGray-200 pt-8 pb-6" dir="ltr">
         <div
           className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
           style={{ transform: "translateZ(0)" }}

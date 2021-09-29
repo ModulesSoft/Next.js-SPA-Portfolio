@@ -9,21 +9,17 @@
     "@fortawesome/fontawesome-free": "5.15.3",
     "@popperjs/core": "2.9.1",
     "@tailwindcss/forms": "0.2.1",
-    "chart.js": "2.9.4",
-    "gulp": "4.0.2",
-    "gulp-append-prepend": "1.0.8",
     "interweave": "^12.8.0",
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-html-parser": "^2.0.2",
     "react-scripts": "4.0.3",
     "react-star-ratings": "^2.3.0",
     "tailwindcss": "2.0.4"
   },
   "scripts": {
     "start": "next start",
-    "build": "next build",
+    "build": "next build && next export",
     "dev": "next dev",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm run dev",
     "build:tailwind": "tailwind build styles/index.css -o styles/tailwind.css"

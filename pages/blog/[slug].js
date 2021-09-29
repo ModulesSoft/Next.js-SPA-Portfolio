@@ -1,15 +1,29 @@
 import { useRouter } from "next/router";
 import Head from 'next/head';
-import Link from "next/link";
 import ReactHtmlParser from 'react-html-parser';
 
 import React from "react";
 
 import Navbar from "components/Navbars/AuthNavbar.js";
-import Footer from "components/Footers/Footer.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
 
 import { getAllPostsWithSlug, getPost } from "../../lib/api";
+export async function getStaticPaths() {
+    const allPosts = await getAllPostsWithSlug();
+
+    return {
+        paths: allPosts.edges.map(({ node }) => `/blog/${node.slug}`) || [],
+        fallback: false
+    };
+}
+export async function getStaticProps({ params }) {
+    const data = await getPost(params.slug);
+    return {
+        props: {
+            postData: data.post
+        }
+    };
+}
 
 export default function Post({ postData }) {
     const router = useRouter();
@@ -26,11 +40,11 @@ export default function Post({ postData }) {
     return (
         <>
             <Navbar transparent />
-            <Head>
+            {/* <Head>
                 <title>{postData.title}</title>
                 <link rel='icon' href='/favicon.ico' />
-            </Head>
-            <main className="profile-page" dir="rtl">
+            </Head> */}
+            <main className="profile-page" >
                 <section className="relative block h-500-px">
                     <div
                         className="absolute top-0 w-full h-full bg-center bg-cover"
@@ -93,8 +107,8 @@ export default function Post({ postData }) {
                                         <div className="flex justify-center py-4 lg:pt-4 pt-8">
                                             <div className="mr-4 p-3 text-center">
                                                 <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                                    {postData.extraProjectsInfo.floors}
-                                                    <i class="fas fa-sort-amount-up-alt"></i>
+                                                    <p className="inline-block">{postData.extraProjectsInfo.floors}</p>
+                                                    <i className="fas fa-sort-amount-up-alt inline-block"></i>
                                                 </span>
                                                 <span className="text-sm text-blueGray-400">
                                                     <p>Floors</p>
@@ -102,25 +116,25 @@ export default function Post({ postData }) {
                                             </div>
                                             <div className="mr-4 p-3 text-center">
                                                 <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                                    {postData.extraProjectsInfo.foundation}
-                                                <i class="fas fa-external-link-square-alt"></i>
+                                                    <p className="inline-block">{postData.extraProjectsInfo.foundation}</p>
+                                                    <i className="fas fa-external-link-square-alt inline-block"></i>
                                                 </span>
                                                 <span className="text-sm text-blueGray-400">
                                                     <p>Foundation area</p>
                                                 </span>
                                             </div>
-                                            <div className="lg:mr-4 p-3 text-center">
+                                            {/* <div className="lg:mr-4 p-3 text-center">
                                                 <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                                                     89
                                                 </span>
                                                 <span className="text-sm text-blueGray-400">
                                                     Comments
                                                 </span>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="text-center mt-12">
+                                <div className="text-center mt-12" >
                                     <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                                         {postData.title}
                                     </h3>
@@ -131,7 +145,7 @@ export default function Post({ postData }) {
                                     <div className="mb-2 text-blueGray-600 mt-10">
                                         <i className="fas fa-handshake mr-2 text-lg text-blueGray-400"></i>
                                         <a href={postData.extraProjectsInfo.employerLink} target="_blank" className="text-teal-500 hover:text-lightBlue-600">
-                                        {postData.extraProjectsInfo.employer}
+                                            {postData.extraProjectsInfo.employer}
                                         </a>
                                     </div>
                                     {/* <div className="mb-2 text-blueGray-600">
@@ -140,9 +154,9 @@ export default function Post({ postData }) {
                   </div> */}
                                 </div>
                                 <div className="mt-10 py-10 border-t border-blueGray-200">
-                                    <div className="flex flex-wrap">
-                                        <div className="w-full lg:w-9/12 px-4">
-                                            
+                                    <div className="flex flex-wrap" dir="rtl">
+                                        <div className="w-full lg:w-9/12 px-4" >
+
                                             {ReactHtmlParser(postData.content)}
 
                                         </div>
@@ -153,24 +167,7 @@ export default function Post({ postData }) {
                     </div>
                 </section>
             </main>
-            {/* <Footer /> */}
         </>
 
     )
-}
-export async function getStaticPaths() {
-    const allPosts = await getAllPostsWithSlug();
-
-    return {
-        paths: allPosts.edges.map(({ node }) => `/blog/${node.slug}`) || [],
-        fallback: true
-    };
-}
-export async function getStaticProps({ params }) {
-    const data = await getPost(params.slug);
-    return {
-        props: {
-            postData: data.post
-        }
-    };
 }
