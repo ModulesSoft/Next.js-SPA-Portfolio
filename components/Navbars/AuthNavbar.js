@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import Link from "next/link";
 // components
 
 import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
+import LanguageDropdown from "components/Dropdowns/LanguageDropdown";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -16,7 +17,7 @@ export default function Navbar(props) {
                 className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
                 href="#pablo"
               >
-                <img src="/img/azarshiga/azarshiga.png" style={{"max-width":"200px"}}  />
+                <img src="/img/azarshiga/azarshiga.png" style={{ "max-width": "200px" }} />
                 <p className="text-center ">azarshiga</p>
               </a>
             </Link>
@@ -37,20 +38,21 @@ export default function Navbar(props) {
           >
             <ul className="flex flex-col lg:flex-row list-none mr-auto">
               <li className="flex items-center">
-              <Link href="/blog">
-                <a
-                  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 "
-                  href=""
-                >
-                  <i className="lg:text-blueGray-200 text-blueGray-400 fas fa-pallet text-lg leading-lg mr-2" />{" "}
-                  Portfolio
-                </a>
+                <Link href="/blog">
+                  <a
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 "
+                    href=""
+                  >
+                    <i className="lg:text-blueGray-200 text-blueGray-400 fas fa-pallet text-lg leading-lg mr-2" />{" "}
+                    Portfolio
+                  </a>
                 </Link>
               </li>
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
                 {/* <PagesDropdown /> */}
+                <LanguageDropdown/>
               </li>
               <li className="flex items-center">
                 <a
