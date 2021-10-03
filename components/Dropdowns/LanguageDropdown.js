@@ -1,4 +1,3 @@
-import React from "react";
 import { LanguageContext } from "lib/language";
 const LanguageDropdown = () => {
     return (
@@ -7,7 +6,7 @@ const LanguageDropdown = () => {
                 {({ language, toggleLanguage }) => (
                     <a
                         className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                        href="#pablo"
+                        href="#language"
                         onClick={toggleLanguage}
                     >
                         <div>
@@ -19,7 +18,5 @@ const LanguageDropdown = () => {
             </LanguageContext.Consumer>
         </>
     )
-
 }
-
 export default LanguageDropdown;

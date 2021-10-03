@@ -1,12 +1,13 @@
 import React from "react";
 
 import Interweave from 'interweave';
+import { LanguageContext } from "lib/language";
+import GetPost from "lib/GetPost";
 class Footer extends React.Component {
-  findPost(row, col, type) {
-    const res = this.props.postData.edges.find(post => post.node.extraFooterPostsInfo.row == row && post.node.extraFooterPostsInfo.column == col);
-    return res ? (type == "title" ? res.node.title : res.node.content) : "data not found!"
-  }
+  
 render() {
+  let lang = this.context.language;
+  let post = new GetPost(this.props.postData,lang,"extraFooterPostsInfo");
   return (
     <>
       <footer className="relative bg-blueGray-200 pt-8 pb-6" dir="ltr">
@@ -32,9 +33,9 @@ render() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap text-center lg:text-right">
             <div className="w-full lg:w-6/12 px-4">
-              <h4 className="text-3xl font-semibold">{this.findPost(1, 1, 'title')}</h4>
+              <h4 className="text-3xl font-semibold">{post.findPost(1, 1, 'title')}</h4>
               <h5 className="text-lg mt-0 mb-2 text-blueGray-600">
-              <Interweave content={this.findPost(1, 1, 'content')} />
+              <Interweave content={post.findPost(1, 1, 'content')} />
               </h5>
               <div className="mt-6 lg:mb-0 mb-6">
                 <button
@@ -70,9 +71,9 @@ render() {
               <div className="flex flex-wrap items-top mb-6">
                 <div className="w-full  px-4 ml-auto">
                   <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">
-                  {this.findPost(1, 3, 'title')}
+                  {post.findPost(1, 3, 'title')}
                   </span>
-                    <Interweave content={this.findPost(1, 3, 'content')} />
+                    <Interweave content={post.findPost(1, 3, 'content')} />
                 </div>
               </div>
             </div>
@@ -91,4 +92,5 @@ render() {
   );
 }
 }
+Footer.contextType = LanguageContext;
 export default Footer

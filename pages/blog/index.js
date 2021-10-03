@@ -25,7 +25,7 @@ const Blog = ({ allPosts: { edges },footerData }) => (
     <IndexNavbar fixed />
 
     <Head>
-      <title>Blog articles page</title>
+      <title>Projects page</title>
       <link rel='icon' href='/favicon.ico' />
     </Head>
     <section className="pb-16 bg-blueGray-100 pt-32" dir="">
