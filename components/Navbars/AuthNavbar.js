@@ -49,6 +49,19 @@ export default function Navbar(props) {
                 </Link>
               </li>
             </ul>
+            <ul className="flex flex-col lg:flex-row list-none mr-auto">
+              <li className="flex items-center">
+                <Link href="/calculators">
+                  <a
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 "
+                    href=""
+                  >
+                    <i className="lg:text-blueGray-200 text-blueGray-400 fas fa-pallet text-lg leading-lg mr-2" />{" "}
+                    Calculators
+                  </a>
+                </Link>
+              </li>
+            </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">
                 {/* <PagesDropdown /> */}
