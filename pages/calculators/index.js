@@ -22,13 +22,13 @@ const Calculators = ({ footerData }) => (
       <title>Calculators page</title>
       <link rel='icon' href='/favicon.ico' />
     </Head>
-    <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-      <section className="pb-16 bg-blueGray-100 pt-32" dir="">
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-2 place-items-center bg-blueGray-100 pt-32 pb-16" dir="rtl">
+      <section className="" dir="">
         <div className="">
           <DinCalculator />
         </div>
       </section>
-      <section className="pb-16 bg-blueGray-100 pt-32" dir="">
+      <section className="" dir="">
         <div className="">
           <UnitConverter />
         </div>

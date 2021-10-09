@@ -6,7 +6,7 @@ import StarRatings from 'react-star-ratings';
 //         rating: newRating
 //       });
 //     }
- 
+
 //     render() {
 //       // rating = 2;
 //       return (
@@ -20,17 +20,19 @@ import StarRatings from 'react-star-ratings';
 //       );
 //     }
 // }
- 
- 
-class Bar extends Component { 
+
+
+class Bar extends Component {
   render() {
     return (
-      <StarRatings
-        rating={this.props.rating}
-        starDimension="25px"
-        starSpacing="5px"
-        starRatedColor="rgba(20, 184, 166, var(--tw-text-opacity))"
-      />
+      <div dir="ltr">
+        <StarRatings
+          rating={this.props.rating}
+          starDimension="25px"
+          starSpacing="5px"
+          starRatedColor="rgba(20, 184, 166, var(--tw-text-opacity))"
+        />
+      </div>
     );
   }
 }

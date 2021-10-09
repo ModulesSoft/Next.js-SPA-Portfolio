@@ -1,21 +1,22 @@
-import React, { Component } from "react";
+import { useState,useContext } from "react";
 import Link from "next/link";
 // components
-
-import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
 import LanguageDropdown from "components/Dropdowns/LanguageDropdown";
+import { LanguageContext } from "lib/language";
+import LinkRender from "./LinkRender";
 
 export default function Navbar(props) {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
+  const lang = useContext(LanguageContext).language;
   return (
     <>
-      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
+      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg" dir={lang=="english"?"ltr":"rtl"}>
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link href="/">
               <a
                 className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
-                href="#pablo"
+                href="#"
               >
                 <img src="/img/azarshiga/azarshiga.png" style={{ "max-width": "200px" }} />
                 <p className="text-center ">azarshiga</p>
@@ -36,38 +37,43 @@ export default function Navbar(props) {
             }
             id="example-navbar-warning"
           >
-            <ul className="flex flex-col lg:flex-row list-none mr-auto">
+            <ul className="flex flex-col lg:flex-row list-none">
               <li className="flex items-center">
-                <Link href="/blog">
+                <Link href="/projects">
                   <a
                     className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 "
                     href=""
                   >
-                    <i className="lg:text-blueGray-200 text-blueGray-400 fas fa-pallet text-lg leading-lg mr-2" />{" "}
-                    Portfolio
+                    <LinkRender language={lang} enText="Projects" faText="پروژه ها" icon="fas fa-pallet"/>
                   </a>
                 </Link>
               </li>
-            </ul>
-            <ul className="flex flex-col lg:flex-row list-none mr-auto">
               <li className="flex items-center">
                 <Link href="/calculators">
                   <a
                     className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 "
                     href=""
                   >
-                    <i className="lg:text-blueGray-200 text-blueGray-400 fas fa-pallet text-lg leading-lg mr-2" />{" "}
-                    Calculators
+                    <LinkRender language={lang} enText="Tools" faText="ابزارک ها" icon="fas fa-calculator"/>
                   </a>
                 </Link>
               </li>
             </ul>
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <ul className={`flex flex-col lg:flex-row list-none ${lang=="english"?"lg:ml-auto":"lg:mr-auto"}`}>
               <li className="flex items-center">
-                {/* <PagesDropdown /> */}
-                <LanguageDropdown/>
+                <Link href="">
+                  <a
+                    className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 "
+                    href=""
+                  >
+                    {/* <i className="inline-block lg:text-blueGray-200 text-blueGray-400 fas fa-flag text-lg leading-lg mr-2" />{" "} */}
+                    <div className="inline-block">
+                      <LanguageDropdown />
+                    </div>
+                  </a>
+                </Link>
               </li>
-              <li className="flex items-center">
+              {/* <li className="flex items-center">
                 <a
                   className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                   href="https://t.me/Azarshiga"
@@ -87,7 +93,7 @@ export default function Navbar(props) {
                   <i className="lg:text-blueGray-200 text-blueGray-400 fab fa-twitter text-lg leading-lg " />
                   <span className="lg:hidden inline-block ml-2">Tweet</span>
                 </a>
-              </li>
+              </li> */}
 
               <li className="flex items-center">
                 <a
@@ -95,8 +101,7 @@ export default function Navbar(props) {
                   href="https://t.me/Azarshiga"
                   target="_blank"
                 >
-                  <i className="lg:text-blueGray-200 text-blueGray-400 fab fa-telegram text-lg leading-lg " />
-                  <span className="lg:hidden inline-block ml-2">Telegram</span>
+                  <LinkRender language={lang} enText="Telegram" faText="تلگرام" icon="fab fa-telegram"/>
                 </a>
               </li>
 
@@ -105,7 +110,8 @@ export default function Navbar(props) {
                   className="bg-white text-blueGray-700 active:bg-blueGray-50 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
                   type="button"
                 >
-                  <i className="fas fa-arrow-alt-circle-down"></i> Resume
+                  <i className="fas fa-arrow-alt-circle-down"></i> 
+                  <LinkRender language={lang} enText="Resume" faText="رزومه" icon={null}/>
                 </button>
               </li>
             </ul>

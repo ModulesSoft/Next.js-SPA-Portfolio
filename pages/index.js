@@ -142,7 +142,7 @@ class Home extends Component {
                     </div>
                     <Link href="/blog">
                       <a href="#projects" className="font-bold text-teal-500 hover:text-lightBlue-600 mt-8">
-                        مشاهده پروژه ها
+                        {lang=="english" ?  "Check projects!" : "مشاهده پروژه ها"}
                       </a>
                     </Link>
                   </div>
@@ -230,7 +230,7 @@ class Home extends Component {
                             </div>
                             <div>
                               <h4 className="text-blueGray-500">
-                                اصالت
+                                {lang=="english" ?  "Originality" : "اصالت"}
                               </h4>
                             </div>
                           </div>
@@ -244,7 +244,7 @@ class Home extends Component {
                             </div>
                             <div>
                               <h4 className="text-blueGray-500">
-                                استاندارد جهانی
+                                {lang=="english" ? "International Standards" : "استاندارد جهانی"}
                               </h4>
                             </div>
                           </div>
@@ -258,7 +258,7 @@ class Home extends Component {
                             </div>
                             <div>
                               <h4 className="text-blueGray-500">
-                                کیفیت
+                                {lang=="english" ? "Quality" : "کیفیت" }
                               </h4>
                             </div>
                           </div>
@@ -430,7 +430,7 @@ class Home extends Component {
                       <Interweave content={post.findPost(5, 2, 'content')} />
                     </p>
                     <div className="text-lg leading-relaxed m-2 text-blueGray-500">
-                      <Brands data={this.props.brandData} />
+                      <Brands data={this.props.brandData} language={lang}/>
                     </div>
                   </div>
                 </div>
@@ -515,17 +515,17 @@ class Home extends Component {
                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
                       <div className="flex-auto p-5 lg:p-10">
                         <h4 className="text-2xl font-semibold">
-                          تمایل به همکاری دارید؟
+                        {lang=="english" ? "Want to cooperate?" : " تمایل به همکاری دارید؟" }
                         </h4>
                         <p className="leading-relaxed mt-1 mb-4 text-blueGray-500">
-                          لطفا فرم زیر را پر کرده و ارسال نمایید تا با شما تماس بگیریم
+                        {lang=="english" ? "Please fill out the form below and we will contact you" : "لطفا فرم زیر را پر کرده و ارسال نمایید تا با شما تماس بگیریم"}
                         </p>
                         <div className="relative w-full mb-3 mt-8">
                           <label
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="full-name"
                           >
-                            نام و نام خانوادگی
+                            {lang=="english" ? "" : "نام و نام خانوادگی" }
                           </label>
                           <input
                             type="text"
@@ -539,7 +539,7 @@ class Home extends Component {
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="email"
                           >
-                            ایمیل
+                            {lang=="english" ? "" : "ایمیل"}
                           </label>
                           <input
                             type="email"
@@ -553,7 +553,7 @@ class Home extends Component {
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="message"
                           >
-                            پیام
+                            {lang=="english" ? "" : "پیام"}
                           </label>
                           <textarea
                             rows="4"
@@ -567,7 +567,7 @@ class Home extends Component {
                             className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button"
                           >
-                            ارسال پیام
+                            {lang=="english" ? "send" : "ارسال پیام" }
                           </button>
                         </div>
                       </div>
