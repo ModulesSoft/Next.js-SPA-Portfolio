@@ -4,9 +4,12 @@ import Link from "next/link";
 import LanguageDropdown from "components/Dropdowns/LanguageDropdown.js";
 import { LanguageContext } from "lib/language";
 import LinkRender from "./LinkRender";
+import ResumeModal from "components/Modals/ResumeModal"
+
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [resumeModalOpen,setResumeModalOpen] = useState(false);
   const lang = useContext(LanguageContext).language;
   return (
     <>
@@ -75,6 +78,7 @@ export default function Navbar(props) {
                 <button
                   className="bg-blueGray-700 text-white active:bg-blueGray-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
                   type="button"
+                  onClick={() => setResumeModalOpen(!resumeModalOpen)}
                 >
                   <i className="fas fa-arrow-alt-circle-down"></i>
                   <LinkRender language={lang} enText="Resume" faText="رزومه" icon={null}/>
@@ -84,6 +88,7 @@ export default function Navbar(props) {
           </div>
         </div>
       </nav>
+      {resumeModalOpen && <ResumeModal close={() => setResumeModalOpen(!resumeModalOpen)}/>}
     </>
   );
 }

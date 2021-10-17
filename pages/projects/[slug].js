@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
-import ReactHtmlParser from 'react-html-parser';
 
 import Navbar from "components/Navbars/AuthNavbar.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
 
 import { getAllPostsWithSlug, getPost } from "../../lib/api";
+import Interweave from "interweave";
 export async function getStaticPaths() {
     const allPosts = await getAllPostsWithSlug();
 
@@ -153,9 +153,7 @@ export default function Post({ postData }) {
                                 <div className="mt-10 py-10 border-t border-blueGray-200">
                                     <div className="flex flex-wrap" dir="rtl">
                                         <div className="w-full lg:w-9/12 px-4" >
-
-                                            {ReactHtmlParser(postData.content)}
-
+                                            <Interweave content={postData.content} />
                                         </div>
                                     </div>
                                 </div>

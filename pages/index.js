@@ -5,10 +5,9 @@ import Navbar from "components/Navbars/AuthNavbar.js";
 import Brands from "components/Brands/Brands.js";
 import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
+import ReCAPTCHA from "react-google-recaptcha";
 
-import { getAllHomePosts } from "../lib/api";
-import { getAllBrands } from "../lib/api";
-import { getAllFooterPosts } from '../lib/api';
+import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
 import { LanguageContext } from "lib/language";
 import GetPost from "../lib/GetPost";
 
@@ -27,32 +26,133 @@ export async function getStaticProps() {
 
 function scrollToTop() {
   var scrollStep = -window.scrollY / (20),
-    scrollInterval = setInterval(function(){
-    if ( window.scrollY != 0 ) {
-        window.scrollBy( 0, scrollStep );
-    }
-    else clearInterval(scrollInterval); 
- },15);
+    scrollInterval = setInterval(function () {
+      if (window.scrollY != 0) {
+        window.scrollBy(0, scrollStep);
+      }
+      else clearInterval(scrollInterval);
+    }, 15);
 }
 class Home extends Component {
+  constructor(props) {
+    super(props)
+    this.sendMail = this.sendMail.bind(this)
+    this.captchaSuccess = this.captchaSuccess.bind(this)
+    this.state = {
+      from: "",
+      fullName: "",
+      body: "",
+      sentResult: "",
+      disableContactFormButton: false,
+      errors: {},
+      expired: true
+    }
+  }
+  captchaSuccess(value) {
+    console.log("Captcha value:", value);
+    if (value) {
+      this.setState({
+        expired: false
+      })
+    }else{
+      this.setState({
+        expired: true
+      })
+    }
+  }
+  handleInputs(state, e) {
+    this.setState(
+      {
+        [state]: e.target.value
+      }
+    )
+  }
+  handleValidation() {
+    let errors = {};
+    let formIsValid = true;
+
+    //Name
+    if (!this.state.fullName) {
+      formIsValid = false;
+      errors["fullname"] = "Cannot be empty";
+    }
+
+
+    //Message
+    if (this.state.body.length < 10) {
+      errors["body"] = "Message cannot be less than 10 chars";
+      formIsValid = false;
+    }
+    if (!this.state.body) {
+      formIsValid = false;
+      errors["body"] = "Cannot be empty";
+    }
+
+
+    //Email
+    if (typeof this.state.from !== "undefined") {
+      let lastAtPos = this.state.from.lastIndexOf("@");
+      let lastDotPos = this.state.from.lastIndexOf(".");
+
+      if (
+        !(
+          lastAtPos < lastDotPos &&
+          lastAtPos > 0 &&
+          this.state.from.indexOf("@@") == -1 &&
+          lastDotPos > 2 &&
+          this.state.from.length - lastDotPos > 2
+        )
+      ) {
+        formIsValid = false;
+        errors["email"] = "Email is not valid";
+      }
+    }
+    if (!this.state.from) {
+      formIsValid = false;
+      errors["email"] = "Cannot be empty";
+    }
+
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
+  async sendMail(e) {
+    e.preventDefault();
+    if (this.handleValidation() && !this.state.expired) {
+      this.setState({
+        sentResult: "Sending your Email...",
+        disableContactFormButton: true,
+      });
+      const msg = await sendContactEmail(this.state.from, this.state.fullName, "contactForm", this.state.body);
+      this.setState({
+        from: "",
+        fullName: "",
+        body: "",
+        sentResult: msg.message
+      });
+
+    } else {
+      this.setState({
+        sentResult: "Form has errors",
+        disableContactFormButton: false
+      })
+    }
+  }
   render() {
     let lang = this.context.language;
     let post = new GetPost(this.props.postData, lang, "extraHomePostsInfo");
     return (
       <>
         <Navbar transparent />
+        <button onClick={scrollToTop} className="fixed z-50 bg-purple-500 text-white active:bg-purple-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150 bottom-0  w-100 right-0 ">
+          <i className="fas fa-angle-double-up"> </i>
+        </button>
         <main dir={lang == "english" ? "ltr" : "rtl"}>
           <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-
-            <button onClick={scrollToTop} className="fixed -right-100 z-50 bg-purple-500 text-white active:bg-purple-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 bottom-0 ">
-              <i className="fas fa-angle-double-up"> </i>
-            </button>
-
             <div
               className="absolute top-0 w-full h-full bg-center bg-cover"
               style={{
                 backgroundImage:
-                  "url('/img/azarshiga/شرکت آذرشیگا،مرکز جراحی محدود میلاد ارومیه .jpg')",
+                  "url('/img/azarshiga/azarshiga-team.jpg')",
               }}
             >
               <span
@@ -527,7 +627,7 @@ class Home extends Component {
               <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
                 <div className="w-full lg:w-6/12 px-4">
                   <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-                    <div className="flex-auto p-5 lg:p-10">
+                    <form onSubmit={this.sendMail} className="flex-auto p-5 lg:p-10">
                       <h4 className="text-2xl font-semibold">
                         {lang == "english" ? "Want to cooperate?" : " تمایل به همکاری دارید؟"}
                       </h4>
@@ -542,12 +642,14 @@ class Home extends Component {
                           {lang == "english" ? "" : "نام و نام خانوادگی"}
                         </label>
                         <input
+                          value={this.state.fullName}
+                          onChange={(e) => this.handleInputs('fullName', e)}
                           type="text"
                           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                           placeholder="Full Name"
                         />
                       </div>
-
+                      <span style={{ color: "red" }}>{this.state.errors["fullname"]}</span>
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -556,12 +658,14 @@ class Home extends Component {
                           {lang == "english" ? "" : "ایمیل"}
                         </label>
                         <input
+                          value={this.state.from}
+                          onChange={(e) => this.handleInputs('from', e)}
                           type="email"
                           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                           placeholder="Email"
                         />
                       </div>
-
+                      <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -570,22 +674,32 @@ class Home extends Component {
                           {lang == "english" ? "" : "پیام"}
                         </label>
                         <textarea
+                          value={this.state.body}
+                          onChange={(e) => this.handleInputs('body', e)}
                           rows="4"
                           cols="80"
                           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Type a message..."
                         />
                       </div>
+                      <span style={{ color: "red" }}>{this.state.errors["body"]}</span>
                       <div className="text-center mt-6">
+                        <div className={this.state.sentResult == "Email Sent" ? "text-lightBlue-400" : "text-red-500"}>
+                          <ReCAPTCHA
+                            sitekey="6LfvfdUcAAAAAC0obju4Am2B6sFaAYYMkfX8JaSe"
+                            onChange={this.captchaSuccess}
+                          />
+                          {this.state.sentResult}
+                        </div>
                         <button
-                          disabled
-                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="button"
+                          className={"bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"}
+                          type="submit"
+                          disabled={this.state.disableContactFormButton}
                         >
                           {lang == "english" ? "send" : "ارسال پیام"}
                         </button>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
