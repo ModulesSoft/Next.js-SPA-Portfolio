@@ -59,7 +59,8 @@ export default class UnitConverter extends Component {
                 firstUnit: this.pairs[e.target.value].firstUnit,
                 secondUnit: this.pairs[e.target.value].secondUnit,
                 selected: e.target.value,
-                direction: true
+                direction: true,
+                ask:0
             }
         )
     }
@@ -77,6 +78,9 @@ export default class UnitConverter extends Component {
                 direction: !this.state.direction
             })
         }
+        this.setState({
+            ask:0
+        })
     }
     calculate(e) {
         e.preventDefault();

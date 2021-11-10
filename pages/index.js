@@ -254,7 +254,7 @@ class Home extends Component {
                   <div className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
                     <Interweave content={post.findPost(2, 1, 'content')} />
                   </div>
-                  <Link href="/blog">
+                  <Link href="/projects">
                     <a href="#projects" className="font-bold text-teal-500 hover:text-lightBlue-600 mt-8">
                       {lang == "english" ? "Check projects!" : "مشاهده پروژه ها"}
                     </a>

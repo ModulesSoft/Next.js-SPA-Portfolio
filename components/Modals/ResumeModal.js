@@ -38,7 +38,7 @@ export const ResumeModal = (props) => {
                                     </h3>
                                     <div class="mt-2">
                                         <p class="text-sm text-gray-500">
-                                            This file is secured by password.If you don't have it, ask company to provide you.
+                                            This file is secured by password. If you don't have it, contact us to provide you.
                                         </p>
                                     </div>
                                     <div class="mt-2">

@@ -8,7 +8,7 @@ import ResumeModal from "components/Modals/ResumeModal"
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [resumeModalOpen,setResumeModalOpen] = useState(false);
+  const [resumeModalOpen, setResumeModalOpen] = useState(false);
   const lang = useContext(LanguageContext).language;
   return (
     <>
@@ -85,17 +85,17 @@ export default function Navbar(props) {
                   <span className="lg:hidden inline-block ml-2">Share</span>
                 </a>
               </li>
-
+          */}
               <li className="flex items-center">
+              <Link href="/auth/login">
                 <a
                   className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  href="https://t.me/Azarshiga"
-                  target="_blank"
+                  href="#"
                 >
-                  <i className="lg:text-blueGray-200 text-blueGray-400 fab fa-twitter text-lg leading-lg " />
-                  <span className="lg:hidden inline-block ml-2">Tweet</span>
+                  <LinkRender language={lang} enText="login" faText="ورود" icon="fas fa-user" />
                 </a>
-              </li> */}
+                </Link>
+              </li>
 
               <li className="flex items-center">
                 <a
@@ -121,7 +121,7 @@ export default function Navbar(props) {
           </div>
         </div>
       </nav>
-            {resumeModalOpen && <ResumeModal close={() => setResumeModalOpen(!resumeModalOpen)}/>}
+      {resumeModalOpen && <ResumeModal close={() => setResumeModalOpen(!resumeModalOpen)} />}
     </>
   );
 }
