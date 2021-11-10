@@ -1,5 +1,6 @@
+import LinkRender from "components/Navbars/LinkRender";
 import { LanguageContext, languages } from "lib/language";
-const LanguageDropdown = () => {
+const LanguageDropdown = ({text}) => {
     return (
         <>
             <LanguageContext.Consumer>
@@ -9,9 +10,8 @@ const LanguageDropdown = () => {
                         href="#language"
                         onClick={toggleLanguage}
                     >
-                        <img className={`inline-block ${language == "english" ? "mr-2" : "ml-2"}`} src={language == "farsi" ? "https://www.countryflags.io/us/flat/24.png" : "https://www.countryflags.io/ir/flat/24.png"} />
-                        <span className="inline-block">{language == "farsi" ? "English" : "فارسی"}</span>
-
+                        <LinkRender text={text} href="#language" exact language={language} enText="فارسی" faText="English" icon="" />
+                        <img className={`inline-block ${language == "english" ? "mr-2" : "ml-2"}`} src={language == "farsi" ? "/img/flags/USA.png" : "/img/flags/Iran.png"} />
                     </a>
                 )}
             </LanguageContext.Consumer>

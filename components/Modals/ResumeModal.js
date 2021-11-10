@@ -13,7 +13,7 @@ export const ResumeModal = (props) => {
 
     // }
     return (<>
-        <div class="mt-0 fixed z-50 inset-0 overflow-y-auto w-full" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="mt-0 fixed z-50 inset-0 overflow-y-auto w-full" aria-labelledby="modal-title" role="dialog" aria-modal="true" dir="ltr">
             <div class="flex justify-center min-h-screen  text-center sm:block sm:p-0">
 
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -46,7 +46,7 @@ export const ResumeModal = (props) => {
                                             <label for="password">
                                                 {/* Enter Password: */}
                                             </label>
-                                            <input name="password" type="text" placeholder="password" value={inputPassword} onChange={e => handleInput(e.target.value)}
+                                            <input name="password" type="password"  value={inputPassword} onChange={e => handleInput(e.target.value)}
                                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                             ></input>
                                         </p>
