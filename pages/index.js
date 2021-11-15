@@ -7,10 +7,13 @@ import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
 import ReCAPTCHA from "react-google-recaptcha";
 
-import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
+import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail,createPost } from "../lib/api";
 import { LanguageContext } from "lib/language";
 import GetPost from "../lib/GetPost";
-
+export async function test() {
+  const data = await createPost();
+  console.log(data);
+}
 export async function getStaticProps() {
   const data = await getAllHomePosts();
   const brands = await getAllBrands();
@@ -25,6 +28,7 @@ export async function getStaticProps() {
 }
 
 function scrollToTop() {
+  test()
   var scrollStep = -window.scrollY / (20),
     scrollInterval = setInterval(function () {
       if (window.scrollY != 0) {
