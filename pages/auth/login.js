@@ -1,30 +1,34 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { createPost, loginUser } from "lib/api";
 // layout for page
 
 import Auth from "layouts/Auth.js";
-
-// next-auth for authentication
-import { signOut, useSession, signIn } from "next-auth/client"
-
+import { loginUser } from "lib/api";
+import { useUser,useUpdateUser } from "lib/session"
 
 
 export default function Login() {
-  const [session, loading] = useSession()
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errors, setErrors] = useState();
+
+  const user = useUser();
+  const updateUser =  useUpdateUser();
   const authenticate = async (e) => {
     e.preventDefault();
     if (email && password) {
-      signIn("credentials", { redirect: null, username: email, password: password }).then(error => setErrors(error));
-      // jwt("authToken","user");
+      try {
+        const user = await loginUser(email, password);
+        updateUser(user);
+      } catch (e) {
+        setErrors("Wrong credentials!")
+      }
+      //[user.user.name,user.user.id,user.authToken,user.refreshToken]
     } else {
-      alert('fields cannot be empty')
+      setErrors("All fields are required!")
     }
   }
-  if (session) {
+  if (Object.keys(user).length!==0) {
     return (
       <>
         <div className="container mx-auto px-4 h-full">
@@ -34,7 +38,7 @@ export default function Login() {
                 <div className="rounded-t mb-0 px-6 py-6">
                   <div className="text-center mb-3">
                     <h6 className="text-blueGray-500 text-sm font-bold">
-                      Signed in as {session.user.name}
+                      Signed in as { user.user.name }
                       <br />
                       <button onClick={() => signOut()}>Sign out</button>
                     </h6>
@@ -59,7 +63,7 @@ export default function Login() {
                       <ul>
                         {
                           // errors.map((e)=><li>{e.error}</li>)
-                          errors && errors.error
+                          errors && errors
                         }
                       </ul>
                     </h6>

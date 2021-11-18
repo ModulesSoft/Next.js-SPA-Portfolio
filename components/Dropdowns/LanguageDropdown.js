@@ -1,21 +1,18 @@
 import LinkRender from "components/Navbars/LinkRender";
-import { LanguageContext, languages } from "lib/language";
-const LanguageDropdown = ({text}) => {
+import { useLanguage, useToggleLanguage } from "lib/language";
+export default function LanguageDropdown({ text }) {
+    const lang = useLanguage()
+    const toggleLanguage = useToggleLanguage()
     return (
-        <>
-            <LanguageContext.Consumer>
-                {({ language, toggleLanguage }) => (
-                    <a
-                        className="py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                        href="#language"
-                        onClick={toggleLanguage}
-                    >
-                        <LinkRender text={text} href="#language" exact language={language} enText="فارسی" faText="English" icon="" />
-                        <img className={`inline-block ${language == "english" ? "mr-2" : "ml-2"}`} src={language == "farsi" ? "/img/flags/USA.png" : "/img/flags/Iran.png"} />
-                    </a>
-                )}
-            </LanguageContext.Consumer>
-        </>
+        <a onClick={toggleLanguage}
+            className={`${text === "light" ? "lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 " : "hover:text-blueGray-500 text-blueGray-700 "}  px-3 py-4 lg:py-2 cursor-pointer`}>
+            <span>
+                {lang === "english" ? "Farsi" : "English"}
+            </span>
+            <i className={`${lang === "farsi" ? "mr-2" : "ml-2"} `} >
+                <img className={`inline-block ${lang === "english" ? "mr-2" : "ml-2"}`} src={lang === "farsi" ? "/img/flags/USA.png" : "/img/flags/Iran.png"} />
+            </i>
+        </a>
+
     )
 }
-export default LanguageDropdown;

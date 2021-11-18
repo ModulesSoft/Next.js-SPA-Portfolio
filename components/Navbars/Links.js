@@ -3,13 +3,12 @@ import LinkRender from "./LinkRender";
 import ResumeModal from "components/Modals/ResumeModal"
 import LanguageDropdown from "components/Dropdowns/LanguageDropdown";
 import UserDropdown from "components/Dropdowns/UserDropdown";
-import { useSession , getSession } from "next-auth/client"
+import { useUser } from "lib/session"
 
 const Links = ({ lang, navbar }) => {
-
-    const [session, loading] = useSession()
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [resumeModalOpen, setResumeModalOpen] = useState(false);
+    const user = useUser();
     let text = "dark";
     navbar == "auth" ? text = "light" : text = "dark"
     return (
@@ -17,13 +16,12 @@ const Links = ({ lang, navbar }) => {
             <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                     {resumeModalOpen && <ResumeModal close={() => setResumeModalOpen(!resumeModalOpen)} />}
-                    <a
+                    <div
                         className="text-center text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
-                        href="/"
                     >
                         <img src="/img/azarshiga/azarshiga.png" style={{ "maxWidth": "200px" }} />
                         <LinkRender text={text} href="/" exact language={lang} enText="azarshiga" faText="آذرشیگا" icon="" />
-                    </a>
+                    </div>
                     <button
                         className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                         type="button"
@@ -52,10 +50,13 @@ const Links = ({ lang, navbar }) => {
                             <LanguageDropdown text={text} />
                         </li>
                         <li className="flex items-center">
-                            {session ?
-                                <UserDropdown></UserDropdown>
-                                :
-                                <LinkRender text={text} href="/auth/login" exact language={lang} enText="login" faText="ورود" icon="fas fa-user" />
+                            {
+
+                                // console.log(user)
+                                (Object.keys(user).length !== 0) ?
+                                    <UserDropdown></UserDropdown>
+                                    :
+                                    <LinkRender text={text} href="/auth/login" exact language={lang} enText="login" faText="ورود" icon="fas fa-user" />
                             }
                         </li>
 

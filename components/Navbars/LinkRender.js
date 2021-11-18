@@ -17,10 +17,10 @@ function LinkRender({ href, exact, ...props }) {
 
     return (
         <Link href={href}>
-            <a className={`${props.text == "light" ? "lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 " : "hover:text-blueGray-500 text-blueGray-700 "}  px-3 py-4 lg:py-2`}>
-                <i className={`${props.language == "english" ? "mr-2" : "ml-2"} ${props.icon} ${isActive?"text-teal-500":""}`} />
+            <a className={`${props.text === "light" ? "lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 " : "hover:text-blueGray-500 text-blueGray-700 "}  px-3 py-4 lg:py-2`}>
+                <i className={`${props.language === "english" ? "mr-2" : "ml-2"} ${props.icon} ${isActive?"text-teal-500":""}`} />
                 <span className={isActive?"text-teal-500":""}>
-                    {props.language == "english" ? props.enText : props.faText}
+                    {props.language === "english" ? props.enText : props.faText}
                 </span>
             </a>
         </Link>

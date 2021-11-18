@@ -8,7 +8,7 @@ import Footer from "components/Footers/Footer";
 // data
 import { getAllProjects } from '../../lib/api';
 import { getAllFooterPosts } from '../../lib/api';
-import { LanguageContext } from "lib/language";
+import { useLanguage } from "lib/language";
 
 export async function getStaticProps() {
   const allPosts = await getAllProjects();
@@ -22,15 +22,15 @@ export async function getStaticProps() {
   };
 }
 function Blog({ allPosts: { edges }, footerData }) {
-  let lang = useContext(LanguageContext).language
+  let lang = useLanguage()
   return (
     <>
       <IndexNavbar fixed />
 
-      <Head>
+      {/* <Head>
         <title>Projects page</title>
         <link rel='icon' href='/favicon.ico' />
-      </Head>
+      </Head> */}
       <section className="pb-16 bg-blueGray-100 pt-32" dir={lang == "english" ? "ltr" : "rtl"}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {edges.map(({ node }) => (

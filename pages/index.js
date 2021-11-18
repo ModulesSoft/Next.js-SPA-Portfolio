@@ -8,8 +8,9 @@ import Interweave from 'interweave';
 import ReCAPTCHA from "react-google-recaptcha";
 
 import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail,createPost } from "../lib/api";
-import { LanguageContext } from "lib/language";
+import { LanguageContext  } from "lib/language";
 import GetPost from "../lib/GetPost";
+
 export async function test() {
   const data = await createPost();
   console.log(data);
@@ -53,7 +54,7 @@ class Home extends Component {
     }
   }
   captchaSuccess(value) {
-    console.log("Captcha value:", value);
+    // console.log("Captcha value:", value);
     if (value) {
       this.setState({
         expired: false
@@ -142,7 +143,7 @@ class Home extends Component {
     }
   }
   render() {
-    let lang = this.context.language;
+    let lang = LanguageContext._currentValue;
     let post = new GetPost(this.props.postData, lang, "extraHomePostsInfo");
     return (
       <>
@@ -168,9 +169,9 @@ class Home extends Component {
               <div className="items-center flex flex-wrap">
                 <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                   <div className="pr-12">
-                    <h1 className="text-white font-semibold text-5xl">
+                    {/* <h1 className="text-white font-semibold text-5xl"> */}
                       {/* {posts.map(post => (post.id == 1) ? <p key={post.id}>{ReactHtmlParser(post.title.rendered)}</p> : '')} */}
-                    </h1>
+                    {/* </h1> */}
                     <p className="mt-4 text-lg text-blueGray-200" >
                       {/* {posts.map(function (post) { if (post.id == 1) { return <p key={post.id}>{ReactHtmlParser(post.content.rendered)}</p> } })} */}
                     </p>
@@ -544,9 +545,9 @@ class Home extends Component {
               <div className="flex flex-wrap justify-center text-center mt-24">
                 <div className="w-full lg:w-6/12 py-16">
                   <h2 className="text-4xl font-semibold">{post.findPost(5, 2, 'title')}</h2>
-                  <p className="text-lg leading-relaxed m-4 text-blueGray-500">
+                  <div className="text-lg leading-relaxed m-4 text-blueGray-500">
                     <Interweave content={post.findPost(5, 2, 'content')} />
-                  </p>
+                  </div>
                   <div className="text-lg leading-relaxed m-2 text-blueGray-500">
                     <Brands data={this.props.brandData} language={lang} />
                   </div>
@@ -584,9 +585,9 @@ class Home extends Component {
                   <h2 className="text-4xl font-semibold text-white">
                     {post.findPost(6, 2, 'title')}
                   </h2>
-                  <p className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
+                  <div className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
                     <Interweave content={post.findPost(6, 2, 'content')} />
-                  </p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap mt-12 justify-center">
@@ -597,9 +598,9 @@ class Home extends Component {
                   <h6 className="text-xl mt-5 font-semibold text-white">
                     {post.findPost(7, 3, 'title')}
                   </h6>
-                  <p className="mt-2 mb-4 text-blueGray-400">
+                  <div className="mt-2 mb-4 text-blueGray-400">
                     <Interweave content={post.findPost(7, 3, 'content')} />
-                  </p>
+                  </div>
                 </div>
                 <div className="w-full lg:w-3/12 px-4 text-center">
                   <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
@@ -608,9 +609,9 @@ class Home extends Component {
                   <h5 className="text-xl mt-5 font-semibold text-white">
                     {post.findPost(7, 2, 'title')}
                   </h5>
-                  <p className="mt-2 mb-4 text-blueGray-400">
+                  <div className="mt-2 mb-4 text-blueGray-400">
                     <Interweave content={post.findPost(7, 2, 'content')} />
-                  </p>
+                  </div>
                 </div>
                 <div className="w-full lg:w-3/12 px-4 text-center">
                   <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
@@ -619,9 +620,9 @@ class Home extends Component {
                   <h5 className="text-xl mt-5 font-semibold text-white">
                     {post.findPost(7, 1, 'title')}
                   </h5>
-                  <p className="mt-2 mb-4 text-blueGray-400">
+                  <div className="mt-2 mb-4 text-blueGray-400">
                     <Interweave content={post.findPost(7, 1, 'content')} />
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -690,7 +691,7 @@ class Home extends Component {
                       <div className="text-center mt-6">
                         <div className={this.state.sentResult == "Email Sent" ? "text-lightBlue-400" : "text-red-500"}>
                           <ReCAPTCHA
-                            sitekey="6LfvfdUcAAAAAC0obju4Am2B6sFaAYYMkfX8JaSe"
+                            sitekey={process.env.CAPTCHA_KEY}
                             onChange={this.captchaSuccess}
                           />
                           {this.state.sentResult}
