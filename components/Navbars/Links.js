@@ -3,12 +3,12 @@ import LinkRender from "./LinkRender";
 import ResumeModal from "components/Modals/ResumeModal"
 import LanguageDropdown from "components/Dropdowns/LanguageDropdown";
 import UserDropdown from "components/Dropdowns/UserDropdown";
-import { useUser } from "lib/session"
+import useUser from "lib/useUser";
 
 const Links = ({ lang, navbar }) => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [resumeModalOpen, setResumeModalOpen] = useState(false);
-    const user = useUser();
+    const {user} = useUser();
     let text = "dark";
     navbar == "auth" ? text = "light" : text = "dark"
     return (
@@ -51,9 +51,7 @@ const Links = ({ lang, navbar }) => {
                         </li>
                         <li className="flex items-center">
                             {
-
-                                // console.log(user)
-                                (Object.keys(user).length !== 0) ?
+                                (user?.user) ?
                                     <UserDropdown></UserDropdown>
                                     :
                                     <LinkRender text={text} href="/auth/login" exact language={lang} enText="login" faText="ورود" icon="fas fa-user" />

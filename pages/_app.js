@@ -5,7 +5,9 @@ import Head from "next/head";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "styles/tailwind.css";
 import "styles/fonts/yekan/yekan-font.css";
-import { SessionProvider } from "lib/session";
+// import { SessionProvider } from "lib/session";
+import { SWRConfig } from "swr";
+import fetchAPI from "lib/api";
 import { LanguageProvider } from "lib/language";
 
 export default class MyApp extends App {
@@ -24,13 +26,20 @@ export default class MyApp extends App {
           <title>Azarshiga</title>
           {/* <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> */}
         </Head>
-        <LanguageProvider>
-          <SessionProvider>
+        <SWRConfig
+          // value={{
+          //   fetcher: fetchAPI,
+          //   onError: (err) => {
+          //     console.error(err);
+          //   },
+          // }}
+        >
+          <LanguageProvider>
             <Layout>
               <Component {...pageProps} />
             </Layout>
-          </SessionProvider>
-        </LanguageProvider>
+          </LanguageProvider>
+        </SWRConfig>
       </React.Fragment >
     );
   }

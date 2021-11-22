@@ -11,10 +11,6 @@ import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail,crea
 import { LanguageContext  } from "lib/language";
 import GetPost from "../lib/GetPost";
 
-export async function test() {
-  const data = await createPost();
-  console.log(data);
-}
 export async function getStaticProps() {
   const data = await getAllHomePosts();
   const brands = await getAllBrands();
@@ -29,7 +25,6 @@ export async function getStaticProps() {
 }
 
 function scrollToTop() {
-  test()
   var scrollStep = -window.scrollY / (20),
     scrollInterval = setInterval(function () {
       if (window.scrollY != 0) {
@@ -54,7 +49,6 @@ class Home extends Component {
     }
   }
   captchaSuccess(value) {
-    // console.log("Captcha value:", value);
     if (value) {
       this.setState({
         expired: false

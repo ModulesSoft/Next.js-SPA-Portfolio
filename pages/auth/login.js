@@ -4,22 +4,49 @@ import Link from "next/link";
 
 import Auth from "layouts/Auth.js";
 import { loginUser } from "lib/api";
-import { useUser,useUpdateUser } from "lib/session"
-
+// import { useUser, useUpdateUser } from "lib/session"
+//import { AES, enc } from "crypto-js"
+import useUser from "lib/useUser";
+import fetchJson from "lib/fetchJson";
+import logout from "../../lib/doLogout";
 
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errors, setErrors] = useState();
+  const [loading, setLoading] = useState(false);
+  const { user, mutateUser, isLoading } = useUser();
 
-  const user = useUser();
-  const updateUser =  useUpdateUser();
   const authenticate = async (e) => {
     e.preventDefault();
     if (email && password) {
+      setLoading(true)
       try {
-        const user = await loginUser(email, password);
-        updateUser(user);
+        const session = await loginUser(email, password);
+        delete session.authToken
+        try {
+          const response = await fetchJson(
+            "/api/login",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(session),
+            });
+          await mutateUser(
+            await response
+          );
+          setLoading(false)
+        } catch (e) {
+          console.error("error while creating session cookie: " + e);
+        }
+        // updateUser(user);
+        // let decodedRefreshToken = user.refreshToken;
+        // //encrypt refresh token
+        // let encryptedRefreshToken = AES.encrypt(decodedRefreshToken, process.env.REFRESH_TOKEN_ENCRYPTION_KEY).toString();
+
+        // localStorage.setItem("refreshTokenEncrypted", encryptedRefreshToken)
+        // localStorage.setItem("name", user.user.name)
+
       } catch (e) {
         setErrors("Wrong credentials!")
       }
@@ -28,7 +55,7 @@ export default function Login() {
       setErrors("All fields are required!")
     }
   }
-  if (Object.keys(user).length!==0) {
+  if (user?.user) {
     return (
       <>
         <div className="container mx-auto px-4 h-full">
@@ -38,9 +65,15 @@ export default function Login() {
                 <div className="rounded-t mb-0 px-6 py-6">
                   <div className="text-center mb-3">
                     <h6 className="text-blueGray-500 text-sm font-bold">
-                      Signed in as { user.user.name }
+                      {loading ? <p className="text-red-500">loading...</p>:`Signed in as ${user.user.name}`}
                       <br />
-                      <button onClick={() => signOut()}>Sign out</button>
+                      <button onClick={
+                        async (e) => {
+                          e.preventDefault();
+                          logout();
+                          setLoading(true)
+                        }
+                      }>Sign out</button>
                     </h6>
                   </div>
                 </div>
@@ -65,6 +98,7 @@ export default function Login() {
                           // errors.map((e)=><li>{e.error}</li>)
                           errors && errors
                         }
+                        {loading && "loading..."}
                       </ul>
                     </h6>
                   </div>

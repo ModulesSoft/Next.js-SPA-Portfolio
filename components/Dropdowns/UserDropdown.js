@@ -1,6 +1,8 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
-
+import LinkRender from "../Navbars/LinkRender";
+import fetchJson from "lib/fetchJson";
+import logout from "lib/doLogout";
 const UserDropdown = () => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
@@ -61,22 +63,14 @@ const UserDropdown = () => {
         >
           Another action
         </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Something else here
-        </a>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
+        {/* <LinkRender text="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700" href="/auth/logout" exact language="english" enText="sign out" faText="خروج" icon="" /> */}
         <a
           href="#pablo"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => {e.preventDefault()}}
+          onClick={(e) => {e.preventDefault(); logout()}}
         >
           Sign out
         </a>
@@ -84,5 +78,8 @@ const UserDropdown = () => {
     </>
   );
 };
+// export function logOut(){
 
+//   useRouter.push("/auth/logout");
+// }
 export default UserDropdown;
