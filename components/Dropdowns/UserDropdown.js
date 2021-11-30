@@ -1,8 +1,7 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
-import LinkRender from "../Navbars/LinkRender";
+import useUser from "lib/useUser";
 import fetchJson from "lib/fetchJson";
-import logout from "lib/doLogout";
 const UserDropdown = () => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
@@ -17,6 +16,7 @@ const UserDropdown = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+  const { mutateUser } = useUser();
   return (
     <>
       <a
@@ -70,7 +70,10 @@ const UserDropdown = () => {
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => {e.preventDefault(); logout()}}
+          onClick={async (e) => {
+            e.preventDefault();
+            mutateUser(await fetchJson('/api/logout', { method: 'POST' }), false)
+          }}
         >
           Sign out
         </a>
