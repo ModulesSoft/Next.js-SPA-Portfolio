@@ -1,10 +1,14 @@
 import withSession from "../../lib/session";
+import authenticate from "../../lib/authenticate"
 
 export default withSession(async (req, res) => {
-  const session = await req.body;
   try {
-    // we check that the user exists on GitHub and store some data in session
-    const user = {...session,isLoggedIn:true}
+    const { username } = await req.body
+    const { password } = await req.body
+    const data = await authenticate(username,password)
+    // delete data.authToken
+    const user = { isLoggedIn: true, ...data}
+    
     req.session.set("user", user);
     await req.session.save();
     res.json(user);

@@ -3,12 +3,10 @@ import Link from "next/link";
 // layout for page
 
 import Auth from "layouts/Auth.js";
-import { loginUser } from "lib/api";
 // import { useUser, useUpdateUser } from "lib/session"
 //import { AES, enc } from "crypto-js"
 import useUser from "lib/useUser";
 import fetchJson from "lib/fetchJson";
-import logout from "../../lib/doLogout";
 
 export default function Login() {
   const [email, setEmail] = useState();
@@ -22,15 +20,17 @@ export default function Login() {
     if (email && password) {
       setLoading(true)
       try {
-        const session = await loginUser(email, password);
-        delete session.authToken
+        const body = {
+          username: email,
+          password: password,
+        }
         try {
           const response = await fetchJson(
             "/api/login",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(session),
+              body: JSON.stringify(body),
             });
           await mutateUser(
             await response
@@ -70,7 +70,7 @@ export default function Login() {
                       <button onClick={
                         async (e) => {
                           e.preventDefault();
-                          logout();
+                          mutateUser(await fetchJson('/api/logout', { method: 'POST' }), false)
                           setLoading(true)
                         }
                       }>Sign out</button>

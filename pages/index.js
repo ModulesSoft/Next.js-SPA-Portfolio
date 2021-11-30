@@ -7,7 +7,7 @@ import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
 import ReCAPTCHA from "react-google-recaptcha";
 
-import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail,createPost } from "../lib/api";
+import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
 import { LanguageContext  } from "lib/language";
 import GetPost from "../lib/GetPost";
 
