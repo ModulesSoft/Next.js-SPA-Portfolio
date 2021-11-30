@@ -4,30 +4,51 @@ import ResumeModal from "components/Modals/ResumeModal"
 import LanguageDropdown from "components/Dropdowns/LanguageDropdown";
 import UserDropdown from "components/Dropdowns/UserDropdown";
 import useUser from "lib/useUser";
-
+import { useRouter } from "next/router";
 const Links = ({ lang, navbar }) => {
     const [navbarOpen, setNavbarOpen] = useState(false);
     const [resumeModalOpen, setResumeModalOpen] = useState(false);
-    const {user} = useUser();
+    const { user } = useUser();
+    const router = useRouter()
     let text = "dark";
     navbar == "auth" ? text = "light" : text = "dark"
+
+    const [hover, setHover] = useState(false);
+    const onHover = () => {
+        setHover(true);
+    };
+
+    const onLeave = () => {
+        setHover(false);
+    };
     return (
         <>
             <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                     {resumeModalOpen && <ResumeModal close={() => setResumeModalOpen(!resumeModalOpen)} />}
+
+                    <button
+                        className="lg:hidden inline-block cursor-pointer text-xl leading-none px-3 py-1 bg-transparent block lg:hidden outline-none focus:outline-none"
+                        type="button"
+                        onClick={() => router.back()}
+                    >
+                        <div className="tooltip">
+                            <i className={`${text !== "dark" ? "text-white" : "text-blueGrey-600"} fas ${lang == "english" ? "fa-arrow-left " : "fa-arrow-right "}`}></i>
+                            <span class="tooltiptext">{lang == "english" ? "Back" : "بازگشت"}</span>
+                        </div>
+                    </button>
                     <div
-                        className="text-center text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
+                        className="text-center text-white text-sm font-bold leading-relaxed inline-block px-3 py-1 whitespace-nowrap uppercase"
                     >
                         <img src="/img/azarshiga/azarshiga.png" style={{ "maxWidth": "200px" }} />
                         <LinkRender text={text} href="/" exact language={lang} enText="azarshiga" faText="آذرشیگا" icon="" />
                     </div>
                     <button
-                        className="cursor-pointer text-xl leading-none px-3 py-1 bg-transparent block lg:hidden outline-none focus:outline-none"
+                        className="inline-block cursor-pointer text-xl leading-none px-3 py-1 bg-transparent block lg:hidden outline-none focus:outline-none"
                         type="button"
                         onClick={() => setNavbarOpen(!navbarOpen)}
                     >
-                        <i className={`${text!=="dark" ? "text-white":"text-blueGrey-600"} fas fa-bars`}></i>
+                        <i className={`${text !== "dark" ? "text-white" : "text-blueGrey-600"} fas fa-bars`}></i>
                     </button>
                 </div>
                 <div
@@ -74,6 +95,18 @@ const Links = ({ lang, navbar }) => {
                         </li>
                     </ul>
                 </div>
+                {/* <div className="lg:flex flex tooltip ">
+                    <button
+                        className={"sm:hidden cursor-pointer text-xl e px-3 py-1 bg-transparent block outline-none focus:outline-none"
+                            +
+                            (navbarOpen ? " block rounded shadow-lg" : " hidden")}
+                        type="button"
+                        onClick={() => router.back()}
+                    >
+                        <i className={`${text !== "dark" ? "text-white" : "text-blueGrey-600"} fas ${lang == "english" ? "fa-arrow-left " : "fa-arrow-right "}`}></i>
+                    </button>
+                    <span class="tooltiptext">{lang == "english" ? "Back" : "بازگشت"}</span>
+                </div> */}
             </div>
         </>
     )
