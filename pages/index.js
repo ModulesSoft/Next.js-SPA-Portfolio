@@ -1,13 +1,15 @@
-import { Component } from "react";
+import { Component, createRef } from "react";
 import Link from "next/link";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Brands from "components/Brands/Brands.js";
 import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
 import ReCAPTCHA from "react-google-recaptcha";
+
 import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
-import { LanguageContext  } from "lib/language";
+import { LanguageContext } from "lib/language";
 import GetPost from "../lib/GetPost";
+import Router from "next/router";
 
 export async function getStaticProps() {
   const data = await getAllHomePosts();
@@ -21,16 +23,7 @@ export async function getStaticProps() {
     }
   }
 }
-
-function scrollToTop() {
-  var scrollStep = -window.scrollY / (20),
-    scrollInterval = setInterval(function () {
-      if (window.scrollY != 0) {
-        window.scrollBy(0, scrollStep);
-      }
-      else clearInterval(scrollInterval);
-    }, 15);
-}
+// const sections = ['first', 'second', 'third', 'fourth', 'fifth'];
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -43,15 +36,22 @@ class Home extends Component {
       sentResult: "",
       disableContactFormButton: false,
       errors: {},
-      expired: true
+      expired: true,
+      scrollCursor: 0,
+      scrollToTopEnabled: false
     }
+    this.firstRef = createRef()
+    this.secondRef = createRef()
+    this.thirdRef = createRef()
+    this.fourthRef = createRef()
+    this.fifthRef = createRef()
   }
   captchaSuccess(value) {
     if (value) {
       this.setState({
         expired: false
       })
-    }else{
+    } else {
       this.setState({
         expired: true
       })
@@ -130,9 +130,83 @@ class Home extends Component {
     } else {
       this.setState({
         sentResult: "Form has errors",
-        disableContactFormButton: false
+        disableContactFormButton: false,
       })
     }
+  }
+
+  scrollTo(hashtag) {
+    if (hashtag === 0) {
+      this.setState(
+        {
+          scrollToTopEnabled:  false
+        }
+      )
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    } else {
+      Router.push(hashtag)
+    }
+  }
+  wheel(e) {
+    e.preventDefault();
+    let scrollToTopEnabled = true
+    let w = window.pageYOffset
+    let scrollUp = e.deltaY < 0//scroll up
+    if (scrollUp) {
+      if (w < this.firstRef.current.offsetTop) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
+        scrollToTopEnabled = false
+      } else if (w < this.secondRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.firstRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w < this.thirdRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.secondRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w < this.fourthRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.thirdRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      }
+    } else {
+      if (w < this.firstRef.current.offsetTop && w > 0) {
+        window.scrollTo({
+          top: this.firstRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w > this.firstRef.current.offsetTop + this.firstRef.current.offsetHeight - 700 && w < this.secondRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.secondRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w > this.secondRef.current.offsetTop + this.secondRef.current.offsetHeight - 700 && w < this.thirdRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.thirdRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w > this.thirdRef.current.offsetTop + this.thirdRef.current.offsetHeight - 700 && w < this.fourthRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.fourthRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      }
+    }
+
+    this.setState(
+      {
+        scrollToTopEnabled: scrollToTopEnabled ? true : false
+      }
+    )
   }
   render() {
     let lang = LanguageContext._currentValue;
@@ -140,11 +214,15 @@ class Home extends Component {
     return (
       <>
         <Navbar transparent />
-        <button onClick={scrollToTop} className="fixed z-50 bg-purple-500 text-white active:bg-purple-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150 bottom-0  w-100 right-0 ">
-          <i className="fas fa-angle-double-up"> </i>
-        </button>
-        <main dir={lang == "english" ? "ltr" : "rtl"}>
-          <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
+        {this.state.scrollToTopEnabled &&
+          <div className="cursor-pointer fixed z-50 hover:shadow-md focus:outline-none bottom-0 inline-flex justify-center w-full"
+            onClick={() => this.scrollTo(0)}
+          >
+            <img className="transform rotate-180" src="/img/swipe-down.gif" />
+          </div>
+        }
+        <main dir={lang == "english" ? "ltr" : "rtl"} onWheel={(e) => this.wheel(e)} >
+          <div id="intro" className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
             <div
               className="absolute top-0 w-full h-full bg-center bg-cover"
               style={{
@@ -155,44 +233,19 @@ class Home extends Component {
               <span
                 id="blackOverlay"
                 className="w-full h-full absolute opacity-75 bg-black"
-              ></span>
-            </div>
-            <div className="container relative mx-auto">
-              <div className="items-center flex flex-wrap">
-                <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                  <div className="pr-12">
-                    {/* <h1 className="text-white font-semibold text-5xl"> */}
-                      {/* {posts.map(post => (post.id == 1) ? <p key={post.id}>{ReactHtmlParser(post.title.rendered)}</p> : '')} */}
-                    {/* </h1> */}
-                    <p className="mt-4 text-lg text-blueGray-200" >
-                      {/* {posts.map(function (post) { if (post.id == 1) { return <p key={post.id}>{ReactHtmlParser(post.content.rendered)}</p> } })} */}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              >
+
+              </span>
             </div>
             <div
               className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-16"
               style={{ transform: "translateZ(0)" }}
             >
-              <svg
-                className="absolute bottom-0 overflow-hidden"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-                version="1.1"
-                viewBox="0 0 2560 100"
-                x="0"
-                y="0"
-              >
-                <polygon
-                  className="text-blueGray-200 fill-current"
-                  points="2560 0 2560 100 0 100"
-                ></polygon>
-              </svg>
             </div>
+
           </div>
 
-          <section className="pb-20 bg-blueGray-200 -mt-24">
+          <section id="first" ref={this.firstRef} className="pb-20 bg-blueGray-200 -mt-24">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap">
 
@@ -286,11 +339,16 @@ class Home extends Component {
                     </blockquote>
                   </div>
                 </div>
+                <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
+                  onClick={(e) => this.scrollTo("#second")}
+                >
+                  <img src="/img/swipe-down.gif" />
+                </div>
               </div>
             </div>
           </section>
 
-          <section className="relative py-20">
+          <section ref={this.secondRef} id="second" className="relative py-20">
             <div
               className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
               style={{ transform: "translateZ(0)" }}
@@ -378,10 +436,16 @@ class Home extends Component {
                   </div>
                 </div>
               </div>
+
+              <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
+                onClick={(e) => this.scrollTo("#third")}
+              >
+                <img src="/img/swipe-down.gif" />
+              </div>
             </div>
           </section>
 
-          <section className="pt-20 pb-48">
+          <section ref={this.thirdRef} id="third" className="pt-20 pb-48">
             <div className="container mx-auto px-4">
               {/* <div className="flex flex-wrap justify-center text-center mb-24">
                 <div className="w-full lg:w-6/12 px-4">
@@ -545,11 +609,15 @@ class Home extends Component {
                   </div>
                 </div>
               </div>
+              <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
+                onClick={(e) => this.scrollTo("#fourth")}
+              >
+                <img src="/img/swipe-down.gif" />
+              </div>
             </div>
           </section>
 
-
-          <section className="pb-20 relative block bg-blueGray-800">
+          <section id="fourth" ref={this.fourthRef} className="pb-20 relative block bg-blueGray-800">
 
             <div
               className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
@@ -619,7 +687,8 @@ class Home extends Component {
               </div>
             </div>
           </section>
-          <section className="relative block py-24 lg:pt-0 bg-blueGray-800">
+
+          <section id="fifth" ref={this.fifthRef} className="relative block py-24 lg:pt-0 bg-blueGray-800">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
                 <div className="w-full lg:w-6/12 px-4">
@@ -702,6 +771,7 @@ class Home extends Component {
               </div>
             </div>
           </section>
+
           <Footer postData={this.props.footerData} />
         </main>
       </>
