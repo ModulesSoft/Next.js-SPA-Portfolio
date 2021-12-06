@@ -6,7 +6,7 @@ import GetPost from "lib/GetPost";
 class Footer extends React.Component {
   
 render() {
-  let lang = this.LanguageContext;
+  let lang = LanguageContext._currentValue;
   let post = new GetPost(this.props.postData,lang,"extraFooterPostsInfo");
   return (
     <>
