@@ -34,7 +34,7 @@ const Links = ({ lang, navbar }) => {
                     >
                         <div className="tooltip">
                             <i className={`${text !== "dark" ? "text-white" : "text-blueGrey-600"} fas ${lang == "english" ? "fa-arrow-left " : "fa-arrow-right "}`}></i>
-                            <span class="tooltiptext">{lang == "english" ? "Back" : "بازگشت"}</span>
+                            <span className="tooltiptext">{lang == "english" ? "Back" : "بازگشت"}</span>
                         </div>
                     </button>
                     <div
