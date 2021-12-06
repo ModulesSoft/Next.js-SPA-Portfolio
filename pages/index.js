@@ -1,12 +1,10 @@
 import { Component } from "react";
 import Link from "next/link";
-
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Brands from "components/Brands/Brands.js";
 import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
 import ReCAPTCHA from "react-google-recaptcha";
-
 import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
 import { LanguageContext  } from "lib/language";
 import GetPost from "../lib/GetPost";
