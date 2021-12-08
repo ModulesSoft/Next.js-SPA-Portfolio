@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useContext } from 'react';
-
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
 import Footer from "components/Footers/Footer";

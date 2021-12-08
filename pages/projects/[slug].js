@@ -3,15 +3,14 @@ import { useRouter } from "next/router";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
 
-import { getAllPostsWithSlug, getPost, getImagesByParentPost } from "../../lib/api";
+import { getAllProjects, getPost, getImagesByParentPost } from "../../lib/api";
 import Interweave from "interweave";
 import ProjectGallery from "components/Galleries/ProjectGallery";
 // import { comment } from "postcss";
 export async function getStaticPaths() {
-    const allPosts = await getAllPostsWithSlug();
-
+    const allProjects = await getAllProjects();
     return {
-        paths: allPosts.edges.map(({ node }) => `/projects/${node.slug}`) || [],
+        paths: allProjects.edges.map(({ node }) => `/projects/${node.slug}`) || [],
         fallback: false
     };
 }
