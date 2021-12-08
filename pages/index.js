@@ -37,6 +37,7 @@ class Home extends Component {
       errors: {},
       expired: true,
       scrollCursor: 0,
+      scrolling: false,
       scrollToTopEnabled: false
     }
     this.firstRef = createRef()
@@ -54,6 +55,10 @@ class Home extends Component {
   }
 
   handleScroll(e) {
+    e.preventDefault()
+    if (this.state.scrolling) {//If the window is scrolling don't let enter
+      return;
+    }
     let scrollToTopEnabled = true
     let w = window.scrollY
     var st = window.pageYOffset || document.documentElement.scrollTop;
@@ -86,25 +91,17 @@ class Home extends Component {
       // }
     } else {
       if (w < this.firstRef.current.offsetTop && w > 0) {
-        window.scrollTo({
-          top: this.firstRef.current.offsetTop,
-          behavior: 'smooth'
-        })
+        this.setState({ scrolling: true })
+        this.windowScrollTo(this.firstRef.current.offsetTop, () => this.setState({ scrolling: false }))
       } else if (w > this.firstRef.current.offsetTop + this.firstRef.current.offsetHeight - 700 && w < this.secondRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.secondRef.current.offsetTop,
-          behavior: 'smooth'
-        })
+        this.setState({ scrolling: true })
+        this.windowScrollTo(this.secondRef.current.offsetTop, () => this.setState({ scrolling: false }))
       } else if (w > this.secondRef.current.offsetTop + this.secondRef.current.offsetHeight - 700 && w < this.thirdRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.thirdRef.current.offsetTop,
-          behavior: 'smooth'
-        })
+        this.setState({ scrolling: true })
+        this.windowScrollTo(this.thirdRef.current.offsetTop, () => this.setState({ scrolling: false }))
       } else if (w > this.thirdRef.current.offsetTop + this.thirdRef.current.offsetHeight - 700 && w < this.fourthRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.fourthRef.current.offsetTop,
-          behavior: 'smooth'
-        })
+        this.setState({ scrolling: true })
+        this.windowScrollTo(this.fourthRef.current.offsetTop, () => this.setState({ scrolling: false }))
       }
     }
     this.setState(
@@ -114,6 +111,22 @@ class Home extends Component {
       }
     )
 
+  }
+  windowScrollTo(offset, callback) {  //A custom callback function to check if window is scrolling(chrome debug)
+    const fixedOffset = offset.toFixed();
+    const onScroll = function () {
+      if (window.pageYOffset.toFixed() === fixedOffset) {
+        window.removeEventListener('scroll', onScroll)
+        callback()
+      }
+    }
+
+    window.addEventListener('scroll', onScroll)
+    onScroll()
+    window.scrollTo({
+      top: offset,
+      behavior: 'smooth'
+    })
   }
   scrollTo(hashtag) {
     if (hashtag === 0) {
@@ -214,7 +227,7 @@ class Home extends Component {
       })
     }
   }
-  
+
   render() {
     let lang = LanguageContext._currentValue;
     let post = new GetPost(this.props.postData, lang, "extraHomePostsInfo");
