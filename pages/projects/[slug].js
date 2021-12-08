@@ -6,7 +6,7 @@ import StarRatings from "components/StarRatings/StarRatings.js";
 import { getAllPostsWithSlug, getPost, getImagesByParentPost } from "../../lib/api";
 import Interweave from "interweave";
 import ProjectGallery from "components/Galleries/ProjectGallery";
-import { comment } from "postcss";
+// import { comment } from "postcss";
 export async function getStaticPaths() {
     const allPosts = await getAllPostsWithSlug();
 
@@ -29,15 +29,17 @@ export async function getStaticProps({ params }) {
 export default function Post({ postData, images }) {
     const router = useRouter();
     //remove images from content
-    postData.content = postData.content.replace(/<img[^>]*>/g, '')
+    if (postData.content) {
+        postData.content = postData.content.replace(/<img[^>]*>/g, '')
+    }
     if (!router.isFallback && !postData?.slug) {
         return <p>error!</p>;
     }
 
-    const formatDate = date => {
-        const newDate = new Date(date);
-        return `${newDate.getDate()}/${newDate.getMonth() + 1}/${newDate.getFullYear()}`;
-    };
+    // const formatDate = date => {
+    //     const newDate = new Date(date);
+    //     return `${newDate.getDate()}/${newDate.getMonth() + 1}/${newDate.getFullYear()}`;
+    // };
 
     return (
         <>
@@ -151,12 +153,12 @@ export default function Post({ postData, images }) {
                                         </a>
                                     </div>
                                 </div>
-                                <div className="mt-10 py-10 border-blueGray-300 border-t flex justify-center" >
+                                <div className="mt-10 py-10 border-blueGray-100 border-t flex justify-center" >
                                     <ProjectGallery mediaItem={images}></ProjectGallery>
                                 </div>
                                 <div className="mt-10 py-10 border-t border-blueGray-200">
                                     <div className="flex flex-wrap" dir="rtl">
-                                        <div className="w-full lg:w-9/12 px-4" >
+                                        <div className="w-full lg:w-9/12 px-4">
                                             <Interweave content={postData.content} />
                                         </div>
                                     </div>
