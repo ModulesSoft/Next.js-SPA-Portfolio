@@ -4220,3 +4220,49 @@ select {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+
+/* Gallery Images */
+.imageContainer {
+  position: relative;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  border-radius: .5rem;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgb(20, 184, 166);
+  border-radius: .5rem;
+}
+.imageContainer:hover  .imageOverlay{
+  opacity: 0.9;
+  transition-duration: .4s;
+}
+.imageContainer:hover{
+  transition-duration: .4s;
+  transform: scale(1.2);
+}
+.imageContainer:hover .imageMiddle {
+  opacity: 1;
+}
+
+.imageText {
+  color:white;
+  text-align: center;
+  justify-content: center;
+  padding: 1rem;
+}

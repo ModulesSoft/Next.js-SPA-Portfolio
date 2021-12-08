@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
 
-import { getAllPostsWithSlug, getPost } from "../../lib/api";
+import { getAllPostsWithSlug, getPost, getImagesByParentPost } from "../../lib/api";
 import Interweave from "interweave";
+import ProjectGallery from "components/Galleries/ProjectGallery";
+import { comment } from "postcss";
 export async function getStaticPaths() {
     const allPosts = await getAllPostsWithSlug();
 
@@ -14,17 +16,20 @@ export async function getStaticPaths() {
     };
 }
 export async function getStaticProps({ params }) {
-    const data = await getPost(params.slug);
+    const postData = await getPost(params.slug);
+    const images = await getImagesByParentPost(postData.databaseId);
     return {
         props: {
-            postData: data.post
+            postData,
+            images
         }
     };
 }
 
-export default function Post({ postData }) {
+export default function Post({ postData, images }) {
     const router = useRouter();
-
+    //remove images from content
+    postData.content = postData.content.replace(/<img[^>]*>/g, '')
     if (!router.isFallback && !postData?.slug) {
         return <p>error!</p>;
     }
@@ -145,10 +150,9 @@ export default function Post({ postData }) {
                                             {postData.extraProjectsInfo.employer}
                                         </a>
                                     </div>
-                                    {/* <div className="mb-2 text-blueGray-600">
-                    <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                    University of Computer Science
-                  </div> */}
+                                </div>
+                                <div className="mt-10 py-10 border-blueGray-300 border-t flex justify-center" >
+                                    <ProjectGallery mediaItem={images}></ProjectGallery>
                                 </div>
                                 <div className="mt-10 py-10 border-t border-blueGray-200">
                                     <div className="flex flex-wrap" dir="rtl">
