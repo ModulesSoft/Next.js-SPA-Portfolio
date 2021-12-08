@@ -5,7 +5,6 @@ import Brands from "components/Brands/Brands.js";
 import Footer from "components/Footers/Footer";
 import Interweave from 'interweave';
 import ReCAPTCHA from "react-google-recaptcha";
-
 import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
 import { LanguageContext } from "lib/language";
 import GetPost from "../lib/GetPost";
@@ -23,12 +22,12 @@ export async function getStaticProps() {
     }
   }
 }
-// const sections = ['first', 'second', 'third', 'fourth', 'fifth'];
 class Home extends Component {
   constructor(props) {
     super(props)
     this.sendMail = this.sendMail.bind(this)
     this.captchaSuccess = this.captchaSuccess.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
     this.state = {
       from: "",
       fullName: "",
@@ -46,6 +45,94 @@ class Home extends Component {
     this.fourthRef = createRef()
     this.fifthRef = createRef()
   }
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll(e) {
+    let scrollToTopEnabled = true
+    let w = window.scrollY
+    var st = window.pageYOffset || document.documentElement.scrollTop;
+    let scrollUp = st < this.state.scrollCursor//scroll up
+    if (scrollUp) {
+      if (w < this.firstRef.current.offsetTop) {
+        scrollToTopEnabled = false
+      }
+      // if (w < this.firstRef.current.offsetTop) {
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: 'smooth'
+      //   })
+      //   scrollToTopEnabled = false
+      // } else if (w < this.secondRef.current.offsetTop) {
+      //   window.scrollTo({
+      //     top: this.firstRef.current.offsetTop,
+      //     behavior: 'smooth'
+      //   })
+      // } else if (w < this.thirdRef.current.offsetTop) {
+      //   window.scrollTo({
+      //     top: this.secondRef.current.offsetTop,
+      //     behavior: 'smooth'
+      //   })
+      // } else if (w < this.fourthRef.current.offsetTop) {
+      //   window.scrollTo({
+      //     top: this.thirdRef.current.offsetTop,
+      //     behavior: 'smooth'
+      //   })
+      // }
+    } else {
+      if (w < this.firstRef.current.offsetTop && w > 0) {
+        window.scrollTo({
+          top: this.firstRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w > this.firstRef.current.offsetTop + this.firstRef.current.offsetHeight - 700 && w < this.secondRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.secondRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w > this.secondRef.current.offsetTop + this.secondRef.current.offsetHeight - 700 && w < this.thirdRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.thirdRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      } else if (w > this.thirdRef.current.offsetTop + this.thirdRef.current.offsetHeight - 700 && w < this.fourthRef.current.offsetTop) {
+        window.scrollTo({
+          top: this.fourthRef.current.offsetTop,
+          behavior: 'smooth'
+        })
+      }
+    }
+    this.setState(
+      {
+        scrollToTopEnabled: scrollToTopEnabled ? true : false,
+        scrollCursor: (st <= 0 ? 0 : st)
+      }
+    )
+
+  }
+  scrollTo(hashtag) {
+    if (hashtag === 0) {
+      this.setState(
+        {
+          scrollToTopEnabled: false
+        }
+      )
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    } else {
+      Router.push(hashtag)
+    }
+  }
+
+
+  //Email form
   captchaSuccess(value) {
     if (value) {
       this.setState({
@@ -67,14 +154,11 @@ class Home extends Component {
   handleValidation() {
     let errors = {};
     let formIsValid = true;
-
     //Name
     if (!this.state.fullName) {
       formIsValid = false;
       errors["fullname"] = "Cannot be empty";
     }
-
-
     //Message
     if (this.state.body.length < 10) {
       errors["body"] = "Message cannot be less than 10 chars";
@@ -84,13 +168,10 @@ class Home extends Component {
       formIsValid = false;
       errors["body"] = "Cannot be empty";
     }
-
-
     //Email
     if (typeof this.state.from !== "undefined") {
       let lastAtPos = this.state.from.lastIndexOf("@");
       let lastDotPos = this.state.from.lastIndexOf(".");
-
       if (
         !(
           lastAtPos < lastDotPos &&
@@ -108,7 +189,6 @@ class Home extends Component {
       formIsValid = false;
       errors["email"] = "Cannot be empty";
     }
-
     this.setState({ errors: errors });
     return formIsValid;
   }
@@ -134,80 +214,7 @@ class Home extends Component {
       })
     }
   }
-
-  scrollTo(hashtag) {
-    if (hashtag === 0) {
-      this.setState(
-        {
-          scrollToTopEnabled:  false
-        }
-      )
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
-    } else {
-      Router.push(hashtag)
-    }
-  }
-  wheel(e) {
-    e.preventDefault();
-    let scrollToTopEnabled = true
-    let w = window.pageYOffset
-    let scrollUp = e.deltaY < 0//scroll up
-    if (scrollUp) {
-      if (w < this.firstRef.current.offsetTop) {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
-        scrollToTopEnabled = false
-      } else if (w < this.secondRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.firstRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      } else if (w < this.thirdRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.secondRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      } else if (w < this.fourthRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.thirdRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      }
-    } else {
-      if (w < this.firstRef.current.offsetTop && w > 0) {
-        window.scrollTo({
-          top: this.firstRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      } else if (w > this.firstRef.current.offsetTop + this.firstRef.current.offsetHeight - 700 && w < this.secondRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.secondRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      } else if (w > this.secondRef.current.offsetTop + this.secondRef.current.offsetHeight - 700 && w < this.thirdRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.thirdRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      } else if (w > this.thirdRef.current.offsetTop + this.thirdRef.current.offsetHeight - 700 && w < this.fourthRef.current.offsetTop) {
-        window.scrollTo({
-          top: this.fourthRef.current.offsetTop,
-          behavior: 'smooth'
-        })
-      }
-    }
-
-    this.setState(
-      {
-        scrollToTopEnabled: scrollToTopEnabled ? true : false
-      }
-    )
-  }
+  
   render() {
     let lang = LanguageContext._currentValue;
     let post = new GetPost(this.props.postData, lang, "extraHomePostsInfo");
@@ -221,7 +228,7 @@ class Home extends Component {
             <img className="transform rotate-180" src="/img/swipe-down.gif" />
           </div>
         }
-        <main dir={lang == "english" ? "ltr" : "rtl"} onWheel={(e) => this.wheel(e)} >
+        <main dir={lang == "english" ? "ltr" : "rtl"} >
           <div id="intro" className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
             <div
               className="absolute top-0 w-full h-full bg-center bg-cover"
@@ -248,7 +255,6 @@ class Home extends Component {
           <section id="first" ref={this.firstRef} className="pb-20 bg-blueGray-200 -mt-24">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap">
-
                 <div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div className="px-4 py-5 flex-auto">
@@ -598,7 +604,7 @@ class Home extends Component {
                 </div>
               </div> */}
 
-              <div className="flex flex-wrap justify-center text-center mt-24">
+              <div className="flex flex-wrap justify-center text-center mt-12">
                 <div className="w-full lg:w-6/12 py-16">
                   <h2 className="text-4xl font-semibold">{post.findPost(5, 2, 'title')}</h2>
                   <div className="text-lg leading-relaxed m-4 text-blueGray-500">
@@ -680,7 +686,7 @@ class Home extends Component {
                   <h5 className="text-xl mt-5 font-semibold text-white">
                     {post.findPost(7, 1, 'title')}
                   </h5>
-                  <div className="mt-2 mb-4 text-blueGray-400">
+                  <div className="mt-2 mb-12 text-blueGray-400">
                     <Interweave content={post.findPost(7, 1, 'content')} />
                   </div>
                 </div>
@@ -688,7 +694,7 @@ class Home extends Component {
             </div>
           </section>
 
-          <section id="fifth" ref={this.fifthRef} className="relative block py-24 lg:pt-0 bg-blueGray-800">
+          <section id="fifth" ref={this.fifthRef} className="relative block pt-24 lg:pt-0 bg-blueGray-800">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
                 <div className="w-full lg:w-6/12 px-4">
@@ -773,6 +779,7 @@ class Home extends Component {
           </section>
 
           <Footer postData={this.props.footerData} />
+
         </main>
       </>
     );
