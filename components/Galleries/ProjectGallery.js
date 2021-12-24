@@ -14,9 +14,8 @@ const projectGallery = ({ mediaItem }) => (
           width={item.mediaDetails.width}
           height={item.mediaDetails.height}
         >
-          {({ ref, open, src = item.mediaDetails.sizes && item.mediaDetails.sizes.filter(size => size.name === "thumbnail")[0].sourceUrl }) => (
-            src &&
-            <div className="imageContainer cursor-pointer m-2" onClick={open}>
+          {({ ref, open }, src = item.mediaDetails.sizes?.filter(size => size.name === "thumbnail")[0].sourceUrl) => (
+            <div className={`imageContainer cursor-pointer m-2 ${!src && "hidden"}`} onClick={open}>
               <img className="image" alt={item.caption ? item.caption : item.altText || "project"} ref={ref} src={src} />
               <div className="imageOverlay">
                 <div className="imageText">{item.caption ? item.caption : item.altText}</div>
