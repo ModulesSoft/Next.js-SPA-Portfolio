@@ -9,6 +9,7 @@ import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } fr
 import { LanguageContext } from "lib/language";
 import GetPost from "../lib/GetPost";
 import Router from "next/router";
+import Head from "next/head";
 
 export async function getStaticProps() {
   const data = await getAllHomePosts();
@@ -233,6 +234,13 @@ class Home extends Component {
     let post = new GetPost(this.props.postData, lang, "extraHomePostsInfo");
     return (
       <>
+        <Head>
+          <title>
+          {lang == "english" ? "Azarshiga Construction Company" : "شرکت عمرانی آذرشیگا"}
+          </title>
+          <meta name="description" content={lang == "english" ? "Azarshiga Construction Company Introduction Webpage - Urmia, Iran" : "وبسایت رسمی شرکت عمرانی آذرشیگا - ارومیه ایران"} />
+          <meta property="og:title" content={lang == "english" ? "Azarshiga Construction Company" : "شرکت عمرانی آذرشیگا"} />
+        </Head>
         <Navbar transparent />
         {this.state.scrollToTopEnabled &&
           <div className="cursor-pointer fixed z-50 hover:shadow-md focus:outline-none bottom-0 inline-flex justify-center w-full"

@@ -60,7 +60,7 @@ export default class UnitConverter extends Component {
                 secondUnit: this.pairs[e.target.value].secondUnit,
                 selected: e.target.value,
                 direction: true,
-                ask:0
+                ask: 0
             }
         )
     }
@@ -79,7 +79,7 @@ export default class UnitConverter extends Component {
             })
         }
         this.setState({
-            ask:0
+            ask: 0
         })
     }
     calculate(e) {
@@ -95,30 +95,31 @@ export default class UnitConverter extends Component {
         })
     }
     render() {
+        let lang = this.props.lang
         return (
             <>
-                <head>
-                    <title>تبدیل واحدهای الکتریکی و مکانیکی</title>
-                </head>
-                <h1 className="m-4 text-left">Electrical and Mechanical units conversion</h1>
-                <h1 className="m-4">تبدیل واحدهای الکتریکی و مکانیکی</h1>
-                <form onSubmit={this.calculate} className="container px-4 mx-auto flex flex-wrap items-center justify-between"  dir="ltr">
+                {lang == "english" ?
+                    <h1 className="m-4 text-left">Electrical and Mechanical units conversion</h1>
+                    :
+                    <h1 className="m-4">تبدیل واحدهای الکتریکی و مکانیکی</h1>
+                }
+                <form onSubmit={this.calculate} className="container px-4 mx-auto flex flex-wrap items-center justify-between" dir="ltr">
                     <div className="flex flex-wrap">
                         <div className="m-4">
                             <label htmlFor="unit_select"
-                                className="block uppercase text-blueGray-600 text-xs font-bold mb-2">choose a pair / انتخاب جفت</label>
+                                className="block uppercase text-blueGray-600 text-xs font-bold mb-2 text-center">{lang == "english" ? "choose a pair" : "انتخاب جفت"}</label>
                             <select className="text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" name="unit_select" onChange={this.pairChange}>
-                                <option value="0">کیلووات مکانیکی - آمپر ۳فاز / Mechanical Kilo watts - 3 phase current</option>
-                                <option value="1">کاوآ - آمپر ۳فاز / kVA - 3 phase current</option>
-                                <option value="2">کاوآ - کیلووات / kVa - kilo watts</option>
-                                <option value="3">کیلووات الکتریکی - آمپر تکفاز / Electrical kilo watts - Single phase current</option>
-                                <option value="4">کیلووات مکانیکی - اسب بخار / Mechanical kilo watts - Horse Power</option>
+                                <option value="0">{lang == "english" ? "Mechanical Kilo watts - 3 phase current" : "کیلووات مکانیکی - آمپر ۳فاز"}</option>
+                                <option value="1">{lang == "english" ? "kVA - 3 phase current" : "کاوآ - آمپر ۳فاز"}</option>
+                                <option value="2">{lang == "english" ? "kVa - kilo watts" : "کاوآ - کیلووات"}</option>
+                                <option value="3">{lang == "english" ? "Electrical kilo watts - Single phase current" : "کیلووات الکتریکی - آمپر تکفاز "}</option>
+                                <option value="4">{lang == "english" ? "Mechanical kilo watts - Horse Power" : "کیلووات مکانیکی - اسب بخار"}</option>
                             </select>
                         </div>
                         <div className="w-full m-4">
                             <div className="inline-block">
                                 <label htmlFor="first"
-                                    className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                                    className="block uppercase text-blueGray-600 text-xs font-bold mb-2 text-center">
                                     {this.state.firstUnit}</label>
                                 <input name="first" type="number"
                                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -131,7 +132,8 @@ export default class UnitConverter extends Component {
                             </div>
                             <div className="inline-block">
                                 <label htmlFor="second"
-                                    className="m-2 block uppercase text-blueGray-600 text-xs font-bold mb-2">{this.state.secondUnit}</label>
+                                    className="m-2 block uppercase text-blueGray-600 text-xs font-bold mb-2 text-center">
+                                        {this.state.secondUnit}</label>
                                 <input name="second" type="float"
                                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     value={this.state.result} readOnly></input>

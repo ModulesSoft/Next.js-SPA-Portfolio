@@ -1,8 +1,7 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
-
 import Navbar from "components/Navbars/AuthNavbar.js";
 import StarRatings from "components/StarRatings/StarRatings.js";
-
 import { getAllProjects, getPost, getImagesByParentPost } from "../../lib/api";
 import Interweave from "interweave";
 import ProjectGallery from "components/Galleries/ProjectGallery";
@@ -43,10 +42,11 @@ export default function Post({ postData, images }) {
     return (
         <>
             <Navbar transparent />
-            {/* <Head>
+            <Head>
                 <title>{postData.title}</title>
-                <link rel='icon' href='/favicon.ico' />
-            </Head> */}
+                <meta name="description" content={" مقیاس پروژه "+postData.extraProjectsInfo.scale+" طبقه "+postData.extraProjectsInfo.floors+" زیربنا "+postData.extraProjectsInfo.foundation+" کارفرما "+postData.extraProjectsInfo.employer} />
+                <meta property="og:title" content={postData.title+" پروژه "} />
+            </Head>
             <main className="profile-page" >
                 <section className="relative block h-500-px">
                     <div
@@ -89,7 +89,7 @@ export default function Post({ postData, images }) {
                                     <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                                         <div className="relative">
                                             <img
-                                                alt="Azar shiga"
+                                                alt="Azar shiga Helmet"
                                                 src="/img/azarshiga/azarshiga-blog-2.png"
                                                 className=" rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                                             />

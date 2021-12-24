@@ -25,11 +25,14 @@ function Blog({ allPosts: { edges }, footerData }) {
     <>
       <IndexNavbar fixed />
 
-      {/* <Head>
-        <title>Projects page</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head> */}
-      <section className="pb-16 bg-blueGray-100 pt-32" dir={lang == "english" ? "ltr" : "rtl"}>
+
+      <Head>
+        <title>{lang == "english" ? "Projects" : "پروژه ها"}</title>
+        <meta name="description" content={lang == "english" ? "Azarshiga Projects List" : "لیست پروژه های آذرشیگا"} />
+        <meta property="og:title" content={lang == "english" ? "Projects" : "پروژه ها"} />
+      </Head>
+
+      <section className="pb-16 bg-blueGray-100 pt-32" dir={lang == "english" ? "ltr" : "rtl"} lang={lang == "english" ? "en" : "fa"}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {edges.map(({ node }) => (
             <div key={node.id} className="m-4 bg-gray-400 antialiased text-gray-900">
@@ -43,10 +46,10 @@ function Blog({ allPosts: { edges }, footerData }) {
                 <div className="bg-white p-6 rounded-lg shadow-lg">
                   <div className="flex items-baseline">
                     <span className={`${node.extraProjectsInfo.status ? "bg-teal-200" : "bg-orange-200"} text-teal-800 text-xs p-2 inline-block rounded-full  uppercase font-semibold tracking-wide text-center`}>
-                      {(node.extraProjectsInfo.status ? lang=="english"?"done":"انجام شده" : lang=="english"?"under construction":"دردست ساخت")}
+                      {(node.extraProjectsInfo.status ? lang == "english" ? "done" : "انجام شده" : lang == "english" ? "under construction" : "دردست ساخت")}
                     </span>
                     <div className="mr-2 ml-2 text-gray-600 uppercase text-xs font-semibold tracking-wider">
-                      {node.extraProjectsInfo.floors && node.extraProjectsInfo.floors + (lang == "english" ?" floors":" طبقه")}  &nbsp; {node.extraProjectsInfo.foundation && node.extraProjectsInfo.foundation + "m²"}
+                      {node.extraProjectsInfo.floors && node.extraProjectsInfo.floors + (lang == "english" ? " floors" : " طبقه")}  &nbsp; {node.extraProjectsInfo.foundation && node.extraProjectsInfo.foundation + "m²"}
                     </div>
                   </div>
 
@@ -63,7 +66,7 @@ function Blog({ allPosts: { edges }, footerData }) {
                   <span className="text-gray-600 text-sm">   /wk</span> */}
                   </div>
                   <div className="mt-1">
-                  {lang == "english" ? "employer:" : "کارفرما:"}
+                    {lang == "english" ? "employer:" : "کارفرما:"}
                     <span className="text-gray-600 text-sm">{" " + node.extraProjectsInfo.employer}</span>
                   </div>
                   <div className="mt-4 grid ">

@@ -40,16 +40,15 @@ export default class MyApp extends App {
             name="viewport"
             content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
           />
-          <title>Azarshiga</title>
           {/* <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> */}
         </Head>
         <SWRConfig
-          // value={{
-          //   fetcher: fetchAPI,
-          //   onError: (err) => {
-          //     console.error(err);
-          //   },
-          // }}
+        // value={{
+        //   fetcher: fetchAPI,
+        //   onError: (err) => {
+        //     console.error(err);
+        //   },
+        // }}
         >
           <LanguageProvider>
             <Layout>
