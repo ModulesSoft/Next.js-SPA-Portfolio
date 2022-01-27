@@ -30,7 +30,7 @@ render() {
             ></polygon>
           </svg>
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 footer">
           <div className={`flex flex-wrap text-center ${lang=="english"? 'lg:text-left' : 'lg:text-right'}`}>
             <div className="w-full lg:w-6/12 px-4">
               <h4 className="text-3xl font-semibold">{post.findPost(1, 1, 'title')}</h4>

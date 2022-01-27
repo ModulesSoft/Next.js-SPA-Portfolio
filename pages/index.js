@@ -246,7 +246,7 @@ class Home extends Component {
           <div className="cursor-pointer fixed z-50 hover:shadow-md focus:outline-none bottom-0 inline-flex justify-center w-full"
             onClick={() => this.scrollTo(0)}
           >
-            <img className="transform rotate-180" src="/img/swipe-down.gif" />
+            <img className="transform rotate-180" src="/img/swipe-down.gif" alt="swiper" />
           </div>
         }
         <main dir={lang == "english" ? "ltr" : "rtl"} >
@@ -321,22 +321,7 @@ class Home extends Component {
               </div>
 
               <div className="flex flex-wrap items-center mt-32">
-                <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
-                  <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
-                    <i className="fas fa-school text-xl"></i>
-                  </div>
-                  <h3 className="text-3xl mb-2 font-semibold leading-normal">
-                    {post.findPost(2, 1, 'title')}
-                  </h3>
-                  <div className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                    <Interweave content={post.findPost(2, 1, 'content')} />
-                  </div>
-                  <Link href="/projects">
-                    <a href="#projects" className="font-bold text-teal-500 hover:text-lightBlue-600 mt-8">
-                      {lang == "english" ? "Check projects!" : "مشاهده پروژه ها"}
-                    </a>
-                  </Link>
-                </div>
+                
 
                 <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-blueGray-700">
@@ -366,10 +351,27 @@ class Home extends Component {
                     </blockquote>
                   </div>
                 </div>
+
+                <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
+                  <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+                    <i className="fas fa-school text-xl"></i>
+                  </div>
+                  <h3 className="text-3xl mb-2 font-semibold leading-normal">
+                    {post.findPost(2, 1, 'title')}
+                  </h3>
+                  <div className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
+                    <Interweave content={post.findPost(2, 1, 'content')} />
+                  </div>
+                  {/* <Link href="/projects">
+                    <a href="#projects" className="font-bold text-teal-500 hover:text-lightBlue-600 mt-8">
+                      {lang == "english" ? "Check projects!" : "مشاهده پروژه ها"}
+                    </a>
+                  </Link> */}
+                </div>
                 <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                   onClick={(e) => this.scrollTo("#second")}
                 >
-                  <img src="/img/swipe-down.gif" />
+                  <img src="/img/swipe-down.gif" alt="swiper" />
                 </div>
               </div>
             </div>
@@ -398,13 +400,6 @@ class Home extends Component {
 
             <div className="container mx-auto px-4">
               <div className="items-center flex flex-wrap">
-                <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
-                  <img
-                    alt="azar shiga flag fields"
-                    className="max-w-full rounded-lg shadow-lg"
-                    src="/img/azarshiga/surgery-room.jpg"
-                  />
-                </div>
                 <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
                   <div className="md:pr-12">
                     <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-blueGray-200">
@@ -462,12 +457,19 @@ class Home extends Component {
                     </ul>
                   </div>
                 </div>
+                <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
+                  <img
+                    alt="azar shiga flag fields"
+                    className="max-w-full rounded-lg shadow-lg"
+                    src="/img/azarshiga/surgery-room.jpg"
+                  />
+                </div>
               </div>
 
               <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                 onClick={(e) => this.scrollTo("#third")}
               >
-                <img src="/img/swipe-down.gif" />
+                <img src="/img/swipe-down.gif" alt="swiper" />
               </div>
             </div>
           </section>
@@ -639,7 +641,7 @@ class Home extends Component {
               <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                 onClick={(e) => this.scrollTo("#fourth")}
               >
-                <img src="/img/swipe-down.gif" />
+                <img src="/img/swipe-down.gif" alt="swiper" />
               </div>
             </div>
           </section>

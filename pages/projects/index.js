@@ -56,7 +56,7 @@ function Blog({ allPosts: { edges }, footerData }) {
                   <h4 className="mt-1 text-xl font-semibold leading-tight" >
                     <Link href={`/projects/${node.slug}`}>
                       <a className="text-teal-500 hover:text-lightBlue-600 flex items-center font-bold">
-                        {lang == "english" ? node.postsInfo.englishTitle : node.title}
+                        {lang == "english" ? node.postsInfo.englishtitle : node.title}
                       </a>
                     </Link>
                   </h4>

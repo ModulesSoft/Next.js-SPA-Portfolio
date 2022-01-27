@@ -6,7 +6,7 @@ export const ResumeModal = (props) => {
     function submitPassword(e) {
         e.preventDefault();
         password == inputPassword ?
-            window.location.replace("https://www.azarshiga.ir/wp-content/uploads/2021/10/resume.pdf")
+            window.location.replace("https://azarshiga.ir/wp-content/uploads/2021/12/resume.pdf")
             : alert("Incorrect password")
     }
     // function handleInput(e) {

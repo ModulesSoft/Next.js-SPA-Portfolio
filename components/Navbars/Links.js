@@ -40,7 +40,7 @@ const Links = ({ lang, navbar }) => {
                     <div
                         className="text-center text-white text-sm font-bold leading-relaxed inline-block px-3 py-1 whitespace-nowrap uppercase"
                     >
-                        <img src="/img/azarshiga/azarshiga.png" style={{ "maxWidth": "200px" }} />
+                        <img src="/img/azarshiga/azarshiga.png" style={{ "maxWidth": "200px" }} alt="logo"/>
                         <LinkRender text={text} href="/" exact language={lang} enText="azarshiga" faText="آذرشیگا" icon="" />
                     </div>
                     <button

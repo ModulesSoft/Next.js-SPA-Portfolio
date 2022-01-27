@@ -4266,3 +4266,7 @@ select {
   justify-content: center;
   padding: 1rem;
 }
+
+.footer a{
+  color:rgb(20, 184, 166);
+}

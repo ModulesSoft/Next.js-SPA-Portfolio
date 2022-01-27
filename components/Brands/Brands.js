@@ -7,7 +7,7 @@ const Brands = ({data, language}) => (
                         alt={item.node.title}
                         className="mx-auto"
                     />
-                    <p className="text-center">{language == "english" ? item.node.postsInfo.englishTitle : item.node.title}</p>
+                    <p className="text-center">{language == "english" ? item.node.postsInfo.englishtitle : item.node.title}</p>
                 </a>
             </div>
         ))}
