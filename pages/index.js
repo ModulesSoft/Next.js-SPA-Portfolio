@@ -294,7 +294,7 @@ class Home extends Component {
           >
             <img
               className="transform rotate-180"
-              src="/img/swipe-down.gif"
+              src={process.env.imagesPrefix + "/img/swipe-down.gif"}
               alt="swiper"
             />
           </div>
@@ -307,7 +307,9 @@ class Home extends Component {
             <div
               className="absolute top-0 w-full h-full bg-center bg-cover"
               style={{
-                backgroundImage: "url('/img/azarshiga/azarshiga-team.jpg')",
+                backgroundImage: `url(${
+                  process.env.imagesPrefix + "/img/azarshiga/azarshiga-team.jpg"
+                })`,
               }}
             >
               <span
@@ -382,7 +384,10 @@ class Home extends Component {
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-blueGray-700">
                     <img
                       alt="azarshiga construction"
-                      src="/img/azarshiga/urmia-Industrial-university-construction.jpg"
+                      src={
+                        process.env.imagesPrefix +
+                        "/img/azarshiga/urmia-Industrial-university-construction.jpg"
+                      }
                       className="w-full align-middle rounded-t-lg"
                     />
                     <blockquote className="relative p-8 mb-4">
@@ -427,7 +432,10 @@ class Home extends Component {
                   className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                   onClick={(e) => this.scrollTo("#second")}
                 >
-                  <img src="/img/swipe-down.gif" alt="swiper" />
+                  <img
+                    src={process.env.imagesPrefix + "/img/swipe-down.gif"}
+                    alt="swiper"
+                  />
                 </div>
               </div>
             </div>
@@ -519,7 +527,10 @@ class Home extends Component {
                   <img
                     alt="azar shiga flag fields"
                     className="max-w-full rounded-lg shadow-lg"
-                    src="/img/azarshiga/surgery-room.jpg"
+                    src={
+                      process.env.imagesPrefix +
+                      "/img/azarshiga/surgery-room.jpg"
+                    }
                   />
                 </div>
               </div>
@@ -528,7 +539,10 @@ class Home extends Component {
                 className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                 onClick={(e) => this.scrollTo("#third")}
               >
-                <img src="/img/swipe-down.gif" alt="swiper" />
+                <img
+                  src={process.env.imagesPrefix + "/img/swipe-down.gif"}
+                  alt="swiper"
+                />
               </div>
             </div>
           </section>
@@ -548,7 +562,7 @@ class Home extends Component {
                   <div className="px-6">
                     <img
                       alt="..."
-                      src="/img/team-1-800x800.jpg"
+                      src={process.env.imagesPrefix +  "/img/team-1-800x800.jpg"}
                       className="shadow-lg rounded-full mx-auto max-w-120-px"
                     />
                     <div className="pt-6 text-center">
@@ -583,7 +597,7 @@ class Home extends Component {
                   <div className="px-6">
                     <img
                       alt="..."
-                      src="/img/team-2-800x800.jpg"
+                      src={process.env.imagesPrefix +  "/img/team-2-800x800.jpg"}
                       className="shadow-lg rounded-full mx-auto max-w-120-px"
                     />
                     <div className="pt-6 text-center">
@@ -612,7 +626,7 @@ class Home extends Component {
                   <div className="px-6">
                     <img
                       alt="..."
-                      src="/img/team-3-800x800.jpg"
+                      src={process.env.imagesPrefix +  "/img/team-3-800x800.jpg"}
                       className="shadow-lg rounded-full mx-auto max-w-120-px"
                     />
                     <div className="pt-6 text-center">
@@ -647,7 +661,7 @@ class Home extends Component {
                   <div className="px-6">
                     <img
                       alt="..."
-                      src="/img/team-4-470x470.png"
+                      src={process.env.imagesPrefix +  "/img/team-4-470x470.png"}
                       className="shadow-lg rounded-full mx-auto max-w-120-px"
                     />
                     <div className="pt-6 text-center">
@@ -703,7 +717,10 @@ class Home extends Component {
                 className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                 onClick={(e) => this.scrollTo("#fourth")}
               >
-                <img src="/img/swipe-down.gif" alt="swiper" />
+                <img
+                  src={process.env.imagesPrefix + "/img/swipe-down.gif"}
+                  alt="swiper"
+                />
               </div>
             </div>
           </section>
