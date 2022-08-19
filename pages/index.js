@@ -3,9 +3,14 @@ import Link from "next/link";
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Brands from "components/Brands/Brands.js";
 import Footer from "components/Footers/Footer";
-import Interweave from 'interweave';
+import Interweave from "interweave";
 import ReCAPTCHA from "react-google-recaptcha";
-import { getAllHomePosts, getAllBrands, getAllFooterPosts, sendContactEmail } from "../lib/api";
+import {
+  getAllHomePosts,
+  getAllBrands,
+  getAllFooterPosts,
+  sendContactEmail,
+} from "../lib/api";
 import { LanguageContext } from "lib/language";
 import GetPost from "../lib/GetPost";
 import Router from "next/router";
@@ -19,16 +24,16 @@ export async function getStaticProps() {
     props: {
       postData: data,
       brandData: brands,
-      footerData
-    }
-  }
+      footerData,
+    },
+  };
 }
 class Home extends Component {
   constructor(props) {
-    super(props)
-    this.sendMail = this.sendMail.bind(this)
-    this.captchaSuccess = this.captchaSuccess.bind(this)
-    this.handleScroll = this.handleScroll.bind(this)
+    super(props);
+    this.sendMail = this.sendMail.bind(this);
+    this.captchaSuccess = this.captchaSuccess.bind(this);
+    // this.handleScroll = this.handleScroll.bind(this)
     this.state = {
       from: "",
       fullName: "",
@@ -39,34 +44,35 @@ class Home extends Component {
       expired: true,
       scrollCursor: 0,
       scrolling: false,
-      scrollToTopEnabled: false
-    }
-    this.firstRef = createRef()
-    this.secondRef = createRef()
-    this.thirdRef = createRef()
-    this.fourthRef = createRef()
-    this.fifthRef = createRef()
+      scrollToTopEnabled: false,
+    };
+    this.firstRef = createRef();
+    this.secondRef = createRef();
+    this.thirdRef = createRef();
+    this.fourthRef = createRef();
+    this.fifthRef = createRef();
   }
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    // window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    // window.removeEventListener('scroll', this.handleScroll);
   }
 
   handleScroll(e) {
-    e.preventDefault()
-    if (this.state.scrolling) {//If the window is scrolling don't let enter
+    e.preventDefault();
+    if (this.state.scrolling) {
+      //If the window is scrolling don't let enter
       return;
     }
-    let scrollToTopEnabled = true
-    let w = window.scrollY
+    let scrollToTopEnabled = true;
+    let w = window.scrollY;
     var st = window.pageYOffset || document.documentElement.scrollTop;
-    let scrollUp = st < this.state.scrollCursor//scroll up
+    let scrollUp = st < this.state.scrollCursor; //scroll up
     if (scrollUp) {
       if (w < this.firstRef.current.offsetTop) {
-        scrollToTopEnabled = false
+        scrollToTopEnabled = false;
       }
       // if (w < this.firstRef.current.offsetTop) {
       //   window.scrollTo({
@@ -92,78 +98,97 @@ class Home extends Component {
       // }
     } else {
       if (w < this.firstRef.current.offsetTop && w > 0) {
-        this.setState({ scrolling: true })
-        this.windowScrollTo(this.firstRef.current.offsetTop, () => this.setState({ scrolling: false }))
-      } else if (w > this.firstRef.current.offsetTop + this.firstRef.current.offsetHeight - 700 && w < this.secondRef.current.offsetTop) {
-        this.setState({ scrolling: true })
-        this.windowScrollTo(this.secondRef.current.offsetTop, () => this.setState({ scrolling: false }))
-      } else if (w > this.secondRef.current.offsetTop + this.secondRef.current.offsetHeight - 700 && w < this.thirdRef.current.offsetTop) {
-        this.setState({ scrolling: true })
-        this.windowScrollTo(this.thirdRef.current.offsetTop, () => this.setState({ scrolling: false }))
-      } else if (w > this.thirdRef.current.offsetTop + this.thirdRef.current.offsetHeight - 700 && w < this.fourthRef.current.offsetTop) {
-        this.setState({ scrolling: true })
-        this.windowScrollTo(this.fourthRef.current.offsetTop, () => this.setState({ scrolling: false }))
+        this.setState({ scrolling: true });
+        this.windowScrollTo(this.firstRef.current.offsetTop, () =>
+          this.setState({ scrolling: false })
+        );
+      } else if (
+        w >
+          this.firstRef.current.offsetTop +
+            this.firstRef.current.offsetHeight -
+            700 &&
+        w < this.secondRef.current.offsetTop
+      ) {
+        this.setState({ scrolling: true });
+        this.windowScrollTo(this.secondRef.current.offsetTop, () =>
+          this.setState({ scrolling: false })
+        );
+      } else if (
+        w >
+          this.secondRef.current.offsetTop +
+            this.secondRef.current.offsetHeight -
+            700 &&
+        w < this.thirdRef.current.offsetTop
+      ) {
+        this.setState({ scrolling: true });
+        this.windowScrollTo(this.thirdRef.current.offsetTop, () =>
+          this.setState({ scrolling: false })
+        );
+      } else if (
+        w >
+          this.thirdRef.current.offsetTop +
+            this.thirdRef.current.offsetHeight -
+            700 &&
+        w < this.fourthRef.current.offsetTop
+      ) {
+        this.setState({ scrolling: true });
+        this.windowScrollTo(this.fourthRef.current.offsetTop, () =>
+          this.setState({ scrolling: false })
+        );
       }
     }
-    this.setState(
-      {
-        scrollToTopEnabled: scrollToTopEnabled ? true : false,
-        scrollCursor: (st <= 0 ? 0 : st)
-      }
-    )
-
+    this.setState({
+      scrollToTopEnabled: scrollToTopEnabled ? true : false,
+      scrollCursor: st <= 0 ? 0 : st,
+    });
   }
-  windowScrollTo(offset, callback) {  //A custom callback function to check if window is scrolling(chrome debug)
+  windowScrollTo(offset, callback) {
+    //A custom callback function to check if window is scrolling(chrome debug)
     const fixedOffset = offset.toFixed();
     const onScroll = function () {
       if (window.pageYOffset.toFixed() === fixedOffset) {
-        window.removeEventListener('scroll', onScroll)
-        callback()
+        window.removeEventListener("scroll", onScroll);
+        callback();
       }
-    }
+    };
 
-    window.addEventListener('scroll', onScroll)
-    onScroll()
+    window.addEventListener("scroll", onScroll);
+    onScroll();
     window.scrollTo({
       top: offset,
-      behavior: 'smooth'
-    })
+      behavior: "smooth",
+    });
   }
   scrollTo(hashtag) {
     if (hashtag === 0) {
-      this.setState(
-        {
-          scrollToTopEnabled: false
-        }
-      )
+      this.setState({
+        scrollToTopEnabled: false,
+      });
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
-      })
+        behavior: "smooth",
+      });
     } else {
-      Router.push(hashtag)
+      Router.push(hashtag);
     }
   }
-
 
   //Email form
   captchaSuccess(value) {
     if (value) {
       this.setState({
-        expired: false
-      })
+        expired: false,
+      });
     } else {
       this.setState({
-        expired: true
-      })
+        expired: true,
+      });
     }
   }
   handleInputs(state, e) {
-    this.setState(
-      {
-        [state]: e.target.value
-      }
-    )
+    this.setState({
+      [state]: e.target.value,
+    });
   }
   handleValidation() {
     let errors = {};
@@ -213,19 +238,23 @@ class Home extends Component {
         sentResult: "Sending your Email...",
         disableContactFormButton: true,
       });
-      const msg = await sendContactEmail(this.state.from, this.state.fullName, "contactForm", this.state.body);
+      const msg = await sendContactEmail(
+        this.state.from,
+        this.state.fullName,
+        "contactForm",
+        this.state.body
+      );
       this.setState({
         from: "",
         fullName: "",
         body: "",
-        sentResult: msg.message
+        sentResult: msg.message,
       });
-
     } else {
       this.setState({
         sentResult: "Form has errors",
         disableContactFormButton: false,
-      })
+      });
     }
   }
 
@@ -236,44 +265,67 @@ class Home extends Component {
       <>
         <Head>
           <title>
-          {lang == "english" ? "Azarshiga Construction Company" : "شرکت عمرانی آذرشیگا"}
+            {lang == "english"
+              ? "Azarshiga Construction Company"
+              : "شرکت عمرانی آذرشیگا"}
           </title>
-          <meta name="description" content={lang == "english" ? "Azarshiga Construction Company Introduction Webpage - Urmia, Iran" : "وبسایت رسمی شرکت عمرانی آذرشیگا - ارومیه ایران"} />
-          <meta property="og:title" content={lang == "english" ? "Azarshiga Construction Company" : "شرکت عمرانی آذرشیگا"} />
+          <meta
+            name="description"
+            content={
+              lang == "english"
+                ? "Azarshiga Construction Company Introduction Webpage - Urmia, Iran"
+                : "وبسایت رسمی شرکت عمرانی آذرشیگا - ارومیه ایران"
+            }
+          />
+          <meta
+            property="og:title"
+            content={
+              lang == "english"
+                ? "Azarshiga Construction Company"
+                : "شرکت عمرانی آذرشیگا"
+            }
+          />
         </Head>
         <Navbar transparent />
-        {this.state.scrollToTopEnabled &&
-          <div className="cursor-pointer fixed z-50 hover:shadow-md focus:outline-none bottom-0 inline-flex justify-center w-full"
+        {this.state.scrollToTopEnabled && (
+          <div
+            className="cursor-pointer fixed z-50 hover:shadow-md focus:outline-none bottom-0 inline-flex justify-center w-full"
             onClick={() => this.scrollTo(0)}
           >
-            <img className="transform rotate-180" src="/img/swipe-down.gif" alt="swiper" />
+            <img
+              className="transform rotate-180"
+              src="/img/swipe-down.gif"
+              alt="swiper"
+            />
           </div>
-        }
-        <main dir={lang == "english" ? "ltr" : "rtl"} >
-          <div id="intro" className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
+        )}
+        <main dir={lang == "english" ? "ltr" : "rtl"}>
+          <div
+            id="intro"
+            className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75"
+          >
             <div
               className="absolute top-0 w-full h-full bg-center bg-cover"
               style={{
-                backgroundImage:
-                  "url('/img/azarshiga/azarshiga-team.jpg')",
+                backgroundImage: "url('/img/azarshiga/azarshiga-team.jpg')",
               }}
             >
               <span
                 id="blackOverlay"
                 className="w-full h-full absolute opacity-75 bg-black"
-              >
-
-              </span>
+              ></span>
             </div>
             <div
               className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-16"
               style={{ transform: "translateZ(0)" }}
-            >
-            </div>
-
+            ></div>
           </div>
 
-          <section id="first" ref={this.firstRef} className="pb-20 bg-blueGray-200 -mt-24">
+          <section
+            id="first"
+            ref={this.firstRef}
+            className="pb-20 bg-blueGray-200 -mt-24"
+          >
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap">
                 <div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
@@ -282,9 +334,11 @@ class Home extends Component {
                       <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                         <i className="fas fa-award"></i>
                       </div>
-                      <h6 className="text-xl font-semibold">{post.findPost(1, 1, 'title')}</h6>
+                      <h6 className="text-xl font-semibold">
+                        {post.findPost(1, 1, "title")}
+                      </h6>
                       <div className="mt-2 mb-4 text-blueGray-500">
-                        <Interweave content={post.findPost(1, 1, 'content')} />
+                        <Interweave content={post.findPost(1, 1, "content")} />
                       </div>
                     </div>
                   </div>
@@ -296,9 +350,11 @@ class Home extends Component {
                       <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                         <i className="fas fa-barcode"></i>
                       </div>
-                      <h6 className="text-xl font-semibold">{post.findPost(1, 2, 'title')}</h6>
+                      <h6 className="text-xl font-semibold">
+                        {post.findPost(1, 2, "title")}
+                      </h6>
                       <div className="mt-2 mb-4 text-blueGray-500">
-                        <Interweave content={post.findPost(1, 2, 'content')} />
+                        <Interweave content={post.findPost(1, 2, "content")} />
                       </div>
                     </div>
                   </div>
@@ -310,19 +366,18 @@ class Home extends Component {
                       <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
                         <i className="fas fa-retweet"></i>
                       </div>
-                      <h6 className="text-xl font-semibold">{post.findPost(1, 3, 'title')}</h6>
+                      <h6 className="text-xl font-semibold">
+                        {post.findPost(1, 3, "title")}
+                      </h6>
                       <div className="mt-2 mb-4 text-blueGray-500">
-                        <Interweave content={post.findPost(1, 3, 'content')} />
+                        <Interweave content={post.findPost(1, 3, "content")} />
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
 
               <div className="flex flex-wrap items-center mt-32">
-                
-
                 <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-blueGray-700">
                     <img
@@ -343,10 +398,10 @@ class Home extends Component {
                         ></polygon>
                       </svg>
                       <h4 className="text-xl font-bold text-white">
-                        {post.findPost(2, 3, 'title')}
+                        {post.findPost(2, 3, "title")}
                       </h4>
                       <div className="text-md font-light mt-2 text-white">
-                        <Interweave content={post.findPost(2, 3, 'content')} />
+                        <Interweave content={post.findPost(2, 3, "content")} />
                       </div>
                     </blockquote>
                   </div>
@@ -357,10 +412,10 @@ class Home extends Component {
                     <i className="fas fa-school text-xl"></i>
                   </div>
                   <h3 className="text-3xl mb-2 font-semibold leading-normal">
-                    {post.findPost(2, 1, 'title')}
+                    {post.findPost(2, 1, "title")}
                   </h3>
                   <div className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
-                    <Interweave content={post.findPost(2, 1, 'content')} />
+                    <Interweave content={post.findPost(2, 1, "content")} />
                   </div>
                   {/* <Link href="/projects">
                     <a href="#projects" className="font-bold text-teal-500 hover:text-lightBlue-600 mt-8">
@@ -368,7 +423,8 @@ class Home extends Component {
                     </a>
                   </Link> */}
                 </div>
-                <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
+                <div
+                  className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                   onClick={(e) => this.scrollTo("#second")}
                 >
                   <img src="/img/swipe-down.gif" alt="swiper" />
@@ -406,10 +462,10 @@ class Home extends Component {
                       <i className="fas fa-industry text-xl"></i>
                     </div>
                     <h3 className="text-3xl font-semibold">
-                      {post.findPost(3, 1, 'title')}
+                      {post.findPost(3, 1, "title")}
                     </h3>
                     <div className="mt-4 text-lg leading-relaxed text-blueGray-500">
-                      <Interweave content={post.findPost(3, 1, 'content')} />
+                      <Interweave content={post.findPost(3, 1, "content")} />
                     </div>
                     <ul className="list-none mt-6">
                       <li className="py-2">
@@ -435,7 +491,9 @@ class Home extends Component {
                           </div>
                           <div>
                             <h4 className="text-blueGray-500">
-                              {lang == "english" ? "International Standards" : "استاندارد جهانی"}
+                              {lang == "english"
+                                ? "International Standards"
+                                : "استاندارد جهانی"}
                             </h4>
                           </div>
                         </div>
@@ -466,7 +524,8 @@ class Home extends Component {
                 </div>
               </div>
 
-              <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
+              <div
+                className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                 onClick={(e) => this.scrollTo("#third")}
               >
                 <img src="/img/swipe-down.gif" alt="swiper" />
@@ -629,16 +688,19 @@ class Home extends Component {
 
               <div className="flex flex-wrap justify-center text-center mt-12">
                 <div className="w-full lg:w-6/12 py-16">
-                  <h2 className="text-4xl font-semibold">{post.findPost(5, 2, 'title')}</h2>
+                  <h2 className="text-4xl font-semibold">
+                    {post.findPost(5, 2, "title")}
+                  </h2>
                   <div className="text-lg leading-relaxed m-4 text-blueGray-500">
-                    <Interweave content={post.findPost(5, 2, 'content')} />
+                    <Interweave content={post.findPost(5, 2, "content")} />
                   </div>
                   <div className="text-lg leading-relaxed m-2 text-blueGray-500">
                     <Brands data={this.props.brandData} language={lang} />
                   </div>
                 </div>
               </div>
-              <div className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
+              <div
+                className="cursor-pointer w-full inline-flex items-center justify-center mt-4 text-lg text-blueGray-200"
                 onClick={(e) => this.scrollTo("#fourth")}
               >
                 <img src="/img/swipe-down.gif" alt="swiper" />
@@ -646,8 +708,11 @@ class Home extends Component {
             </div>
           </section>
 
-          <section id="fourth" ref={this.fourthRef} className="pb-20 relative block bg-blueGray-800">
-
+          <section
+            id="fourth"
+            ref={this.fourthRef}
+            className="pb-20 relative block bg-blueGray-800"
+          >
             <div
               className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
               style={{ transform: "translateZ(0)" }}
@@ -672,10 +737,10 @@ class Home extends Component {
               <div className="flex flex-wrap text-center justify-center">
                 <div className="w-full lg:w-6/12 px-4">
                   <h2 className="text-4xl font-semibold text-white">
-                    {post.findPost(6, 2, 'title')}
+                    {post.findPost(6, 2, "title")}
                   </h2>
                   <div className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-                    <Interweave content={post.findPost(6, 2, 'content')} />
+                    <Interweave content={post.findPost(6, 2, "content")} />
                   </div>
                 </div>
               </div>
@@ -685,10 +750,10 @@ class Home extends Component {
                     <i className="fas fa-medal text-xl"></i>
                   </div>
                   <h6 className="text-xl mt-5 font-semibold text-white">
-                    {post.findPost(7, 3, 'title')}
+                    {post.findPost(7, 3, "title")}
                   </h6>
                   <div className="mt-2 mb-4 text-blueGray-400">
-                    <Interweave content={post.findPost(7, 3, 'content')} />
+                    <Interweave content={post.findPost(7, 3, "content")} />
                   </div>
                 </div>
                 <div className="w-full lg:w-3/12 px-4 text-center">
@@ -696,10 +761,10 @@ class Home extends Component {
                     <i className="fas fa-poll text-xl"></i>
                   </div>
                   <h5 className="text-xl mt-5 font-semibold text-white">
-                    {post.findPost(7, 2, 'title')}
+                    {post.findPost(7, 2, "title")}
                   </h5>
                   <div className="mt-2 mb-4 text-blueGray-400">
-                    <Interweave content={post.findPost(7, 2, 'content')} />
+                    <Interweave content={post.findPost(7, 2, "content")} />
                   </div>
                 </div>
                 <div className="w-full lg:w-3/12 px-4 text-center">
@@ -707,27 +772,38 @@ class Home extends Component {
                     <i className="fas fa-lightbulb text-xl"></i>
                   </div>
                   <h5 className="text-xl mt-5 font-semibold text-white">
-                    {post.findPost(7, 1, 'title')}
+                    {post.findPost(7, 1, "title")}
                   </h5>
                   <div className="mt-2 mb-12 text-blueGray-400">
-                    <Interweave content={post.findPost(7, 1, 'content')} />
+                    <Interweave content={post.findPost(7, 1, "content")} />
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          <section id="fifth" ref={this.fifthRef} className="relative block pt-24 lg:pt-0 bg-blueGray-800">
+          <section
+            id="fifth"
+            ref={this.fifthRef}
+            className="relative block pt-24 lg:pt-0 bg-blueGray-800"
+          >
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
                 <div className="w-full lg:w-6/12 px-4">
                   <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-                    <form onSubmit={this.sendMail} className="flex-auto p-5 lg:p-10">
+                    <form
+                      onSubmit={this.sendMail}
+                      className="flex-auto p-5 lg:p-10"
+                    >
                       <h4 className="text-2xl font-semibold">
-                        {lang == "english" ? "Want to cooperate?" : " تمایل به همکاری دارید؟"}
+                        {lang == "english"
+                          ? "Want to cooperate?"
+                          : " تمایل به همکاری دارید؟"}
                       </h4>
                       <p className="leading-relaxed mt-1 mb-4 text-blueGray-500">
-                        {lang == "english" ? "Please fill out the form below and we will contact you" : "لطفا فرم زیر را پر کرده و ارسال نمایید تا با شما تماس بگیریم"}
+                        {lang == "english"
+                          ? "Please fill out the form below and we will contact you"
+                          : "لطفا فرم زیر را پر کرده و ارسال نمایید تا با شما تماس بگیریم"}
                       </p>
                       <div className="relative w-full mb-3 mt-8">
                         <label
@@ -738,13 +814,15 @@ class Home extends Component {
                         </label>
                         <input
                           value={this.state.fullName}
-                          onChange={(e) => this.handleInputs('fullName', e)}
+                          onChange={(e) => this.handleInputs("fullName", e)}
                           type="text"
                           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                           placeholder="Full Name"
                         />
                       </div>
-                      <span style={{ color: "red" }}>{this.state.errors["fullname"]}</span>
+                      <span style={{ color: "red" }}>
+                        {this.state.errors["fullname"]}
+                      </span>
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -754,13 +832,15 @@ class Home extends Component {
                         </label>
                         <input
                           value={this.state.from}
-                          onChange={(e) => this.handleInputs('from', e)}
+                          onChange={(e) => this.handleInputs("from", e)}
                           type="email"
                           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                           placeholder="Email"
                         />
                       </div>
-                      <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
+                      <span style={{ color: "red" }}>
+                        {this.state.errors["email"]}
+                      </span>
                       <div className="relative w-full mb-3">
                         <label
                           className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -770,16 +850,24 @@ class Home extends Component {
                         </label>
                         <textarea
                           value={this.state.body}
-                          onChange={(e) => this.handleInputs('body', e)}
+                          onChange={(e) => this.handleInputs("body", e)}
                           rows="4"
                           cols="80"
                           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                           placeholder="Type a message..."
                         />
                       </div>
-                      <span style={{ color: "red" }}>{this.state.errors["body"]}</span>
+                      <span style={{ color: "red" }}>
+                        {this.state.errors["body"]}
+                      </span>
                       <div className="text-center mt-6">
-                        <div className={this.state.sentResult == "Email Sent" ? "text-lightBlue-400" : "text-red-500"}>
+                        <div
+                          className={
+                            this.state.sentResult == "Email Sent"
+                              ? "text-lightBlue-400"
+                              : "text-red-500"
+                          }
+                        >
                           <ReCAPTCHA
                             sitekey={process.env.CAPTCHA_KEY}
                             onChange={this.captchaSuccess}
@@ -787,7 +875,9 @@ class Home extends Component {
                           {this.state.sentResult}
                         </div>
                         <button
-                          className={"bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"}
+                          className={
+                            "bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          }
                           type="submit"
                           disabled={this.state.disableContactFormButton}
                         >
@@ -802,11 +892,10 @@ class Home extends Component {
           </section>
 
           <Footer postData={this.props.footerData} />
-
         </main>
       </>
     );
   }
 }
 Home.contextType = LanguageContext;
-export default Home
+export default Home;
