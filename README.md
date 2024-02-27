@@ -6,4 +6,6 @@ It uses Next.js along with Tailwind CSS for front-end which communicates with a 
 
 ## Demo (SSG)
 
-https://majhoolsoft.github.io/Next.js-SPA-Portfolio/
+Live demo:
+
+https://modulessoft.github.io/Next.js-SPA-Portfolio/
